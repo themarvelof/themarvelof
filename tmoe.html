@@ -1,0 +1,2789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TMOE | Building the Infrastructure for Network Commerce</title>
+  <meta
+    name="description"
+    content="TMOE connects intent, decisions, and outcomes across trusted networks of content, commerce, and data."
+  />
+  <meta
+    name="keywords"
+    content="network commerce, content to commerce, decision intelligence, TMOE, publisher network"
+  />
+  <link rel="icon" type="image/svg+xml" href="./images/tmoe_logo.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --dark-surface: #16171D;
+      --stroke-light: rgba(12, 12, 10, 0.09);
+      --stroke-dark: rgba(255, 255, 255, 0.09);
+      --rail-offset: 72px;
+      --rail-gutter: 40px;
+    }
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+    .container-shell {
+      width: 100%;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: calc(var(--rail-offset) + var(--rail-gutter));
+      padding-right: calc(var(--rail-offset) + var(--rail-gutter));
+    }
+    .between-rails {
+      width: 100%;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: var(--rail-offset);
+      padding-right: var(--rail-offset);
+    }
+    .rail-rule {
+      height: 1px;
+      /* margin-left: -1px;
+      margin-right: -1px; */
+    }
+    .rail-rule-light {
+      background: var(--stroke-light);
+    }
+    .rail-rule-dark {
+      background: var(--stroke-dark);
+    }
+    .commerce-gradient {
+      background-image: linear-gradient(
+        90deg,
+        rgba(0, 0, 0) 20%,
+        rgba(233, 71, 67, 1) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    .page-frame {
+      width: 100%;
+      max-width: 91rem;
+      margin-left: auto;
+      margin-right: auto;
+      background: #fff;
+      position: relative;
+    }
+    .page-frame::before,
+    .page-frame::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--stroke-light);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .page-frame::before {
+      left: var(--rail-offset);
+    }
+    .page-frame::after {
+      right: var(--rail-offset);
+    }
+    .frame-rails {
+      position: relative;
+    }
+    .frame-rails::before,
+    .frame-rails::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--stroke-light);
+      z-index: 60;
+      pointer-events: none;
+    }
+    .frame-rails::before {
+      left: var(--rail-offset);
+    }
+    .frame-rails::after {
+      right: var(--rail-offset);
+    }
+    .site-header {
+      background-color: #ffffff;
+      background-image: none;
+    }
+    @media (min-width: 1025px) {
+      .site-header {
+        background-color: transparent;
+        background-image: linear-gradient(
+          to right,
+          transparent 0,
+          transparent var(--rail-offset),
+          #ffffff var(--rail-offset),
+          #ffffff calc(100% - var(--rail-offset)),
+          transparent calc(100% - var(--rail-offset)),
+          transparent 100%
+        );
+      }
+    }
+    .rails {
+      position: relative;
+    }
+    .rails::before,
+    .rails::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      z-index: 55;
+      pointer-events: none;
+    }
+    .rails::before {
+      left: var(--rail-offset);
+    }
+    .rails::after {
+      right: var(--rail-offset);
+    }
+    .rails-light::before,
+    .rails-light::after {
+      background: var(--stroke-light);
+    }
+    .rails-dark::before,
+    .rails-dark::after {
+      background: var(--stroke-dark);
+    }
+    .line-light {
+      border-color: var(--stroke-light) !important;
+    }
+    .line-dark {
+      border-color: var(--stroke-dark) !important;
+    }
+    @media (max-width: 1024px) {
+      :root {
+        --rail-offset: 24px;
+        --rail-gutter: 16px;
+      }
+      .container-shell {
+        padding-left: calc(var(--rail-offset) + var(--rail-gutter));
+        padding-right: calc(var(--rail-offset) + var(--rail-gutter));
+      }
+      .page-frame::before {
+        left: var(--rail-offset);
+      }
+      .page-frame::after {
+        right: var(--rail-offset);
+      }
+      .frame-rails::before {
+        left: var(--rail-offset);
+      }
+      .frame-rails::after {
+        right: var(--rail-offset);
+      }
+      .rails::before {
+        left: var(--rail-offset);
+      }
+      .rails::after {
+        right: var(--rail-offset);
+      }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.8s ease forwards;
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .hero-wrap {
+      position: relative;
+      min-height: 30rem;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 44.25rem;
+    }
+    .hero-title {
+      max-width: 44.25rem;
+      font-size: 3.75rem;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -2px;
+      color: rgba(12, 12, 10, 1);
+    }
+    .hero-subtitle {
+      margin-top: 0.9rem;
+      max-width: 31.5rem;
+      font-size: 1.0625rem;
+      font-weight: 500;
+      line-height: 1.24;
+      color: rgba(12, 12, 10, 0.9);
+    }
+    .hero-cta {
+      margin-top: 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 2.45rem;
+      padding: 0.52rem 1.22rem;
+      border-radius: 0.12rem;
+      font-size: 1.01rem;
+      line-height: 1;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+      will-change: transform;
+    }
+    .hero-btn-primary {
+      border: 3px solid transparent;
+      background:
+        linear-gradient(#0f0f0f, #0f0f0f) padding-box,
+        linear-gradient(#0f0f0f, #0f0f0f) border-box;
+      color: #fff;
+      font-weight: 600;
+    }
+    .hero-btn-primary:hover {
+      background:
+        linear-gradient(#000, #000) padding-box,
+        linear-gradient(
+          120deg,
+          #21ab85 0%,
+          #000000 22%,
+          #21ab85 40%,
+          #a6b790 55%,
+          #e94743 72%,
+          #000000 86%,
+          #e94743 100%
+        ) border-box;
+      transform: scale(1.03);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+    }
+    .hero-btn-secondary {
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      color: rgba(12, 12, 10, 0.95);
+      font-weight: 500;
+    }
+    .hero-btn-secondary:hover {
+      border-color: #d4d4d8;
+      background: #ffffff;
+      color: #0f0f0f;
+      transform: scale(1.03);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+    }
+    .hero-figure {
+      position: absolute;
+      right: -2.75rem;
+      top: 51.5%;
+      transform: translateY(-50%);
+      z-index: 1;
+      width: min(54vw, 43.5rem);
+      pointer-events: none;
+    }
+    .hero-figure img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    @media (max-width: 1024px) {
+      .hero-wrap {
+        min-height: 0;
+        display: block;
+      }
+      .hero-content {
+        max-width: 100%;
+      }
+      .hero-figure {
+        position: static;
+        transform: none;
+        width: 100%;
+        max-width: 36rem;
+        margin: 2rem auto 0;
+        pointer-events: auto;
+      }
+    }
+    @media (max-width: 1024px) and (min-width: 768px) {
+      .hero-title {
+        font-size: clamp(2.2rem, 8.4vw, 3.2rem);
+        letter-spacing: -0.04em;
+      }
+    }
+    /* How It Works — Figma typography */
+    .how-section {
+      background: #fefefe;
+    }
+    .how-eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(12, 12, 10, 1);
+    }
+    .how-title {
+      margin: 0;
+      margin-top: 12px;
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgba(12, 12, 10, 1);
+    }
+    .how-step-num {
+      margin: 0;
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 52px;
+      letter-spacing: -3px;
+      color: #e8501a;
+      opacity: 0.2;
+    }
+    .how-step-title-row {
+      margin: 0;
+      margin-top: 12px;
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: rgba(12, 12, 10, 1);
+    }
+    .how-step-desc {
+      margin: 0;
+      margin-top: 8px;
+      max-width: 15rem;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: rgba(12, 12, 10, 0.55);
+    }
+    .how-arrow-connector {
+      position: absolute;
+      right: 0;
+      top: 2.75rem;
+      z-index: 10;
+      transform: translateX(50%);
+      line-height: 0;
+    }
+    .how-arrow-connector img {
+      display: block;
+      width: 20px;
+      height: 20px;
+    }
+    .how-learning-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .how-footer-ribbon {
+      border-top: 1px solid var(--stroke-light);
+      border-left: 1px solid var(--stroke-light);
+      border-right: 1px solid var(--stroke-light);
+      border-bottom: 1px solid var(--stroke-light);
+      background: #fff;
+      padding: 1rem 1.5rem;
+    }
+    .how-footer-text {
+      margin: 0;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.45;
+      color: rgba(12, 12, 10, 0.9);
+    }
+    .how-footer-text em {
+      font-style: italic;
+      font-weight: 500;
+    }
+    .how-mobile-step {
+      position: relative;
+      padding: 2.25rem 1.5rem 1.75rem;
+      text-align: center;
+    }
+    .how-mobile-step .how-step-desc {
+      max-width: none;
+    }
+    .how-mobile-connector {
+      position: absolute;
+      left: 50%;
+      bottom: -12px;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      /* border: 1px solid rgba(232, 80, 26, 0.45); */
+      background: #fff;
+      z-index: 2;
+      line-height: 0;
+    }
+    .how-mobile-connector img {
+      width: 100%;
+      height: 100%;
+    }
+    @media (max-width: 767px) {
+      .how-title {
+        font-size: clamp(1.75rem, 7vw, 2.25rem);
+      }
+      .how-step-num {
+        font-size: 44px;
+        line-height: 44px;
+        letter-spacing: -2px;
+      }
+    }
+    /* Metrics — The Network Today (Figma) */
+    .metrics-section {
+      background-color: rgb(22, 23, 29);
+    }
+    .metrics-rule {
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    .metrics-eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .metrics-headline {
+      margin: 0;
+      margin-top: 12px;
+      max-width: 338px;
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 50px;
+      letter-spacing: -1px;
+      color: #fff;
+    }
+    .metrics-lede {
+      margin: 0;
+      margin-top: 24px;
+      max-width: 338px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      color: rgba(255, 255, 255, 0.95);
+    }
+    .metrics-markets {
+      margin: 0;
+      margin-top: 24px;
+      max-width: 338px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.25;
+      color: rgba(255, 255, 255, 0.92);
+    }
+    .metrics-markets-accent {
+      color: rgb(232, 80, 26);
+    }
+    .metrics-cell-label {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .metrics-cell-value {
+      margin: 0;
+      margin-top: 24px;
+      font-size: 48px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgb(232, 80, 26);
+    }
+    .metrics-cell-desc {
+      margin: 0;
+      margin-top: 12px;
+      max-width: 22rem;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.33;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    @media (max-width: 767px) {
+      .metrics-headline {
+        font-size: clamp(2rem, 9vw, 2.75rem);
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+      }
+      .metrics-cell-value {
+        font-size: 40px;
+      }
+    }
+    /* About — Who We Are (Figma) */
+    .about-section {
+      background: #fefefe;
+      color: rgba(12, 12, 10, 1);
+    }
+    .about-header {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-top: 2.25rem;
+      padding-bottom: 2.25rem;
+      border-bottom: 1px solid var(--stroke-light);
+    }
+    @media (min-width: 768px) {
+      .about-header {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        padding-top: 3rem;
+        padding-bottom: 2.75rem;
+      }
+    }
+    .about-eyebrow-wrap {
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(12, 12, 10, 1);
+    }
+    .about-eyebrow-rule {
+      flex-shrink: 0;
+      width: 32px;
+      height: 1px;
+      background: rgba(12, 12, 10, 0.22);
+    }
+    .about-title {
+      margin: 0;
+      margin-top: 12px;
+      max-width: 75rem;
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgba(12, 12, 10, 1);
+    }
+    .about-columns {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--stroke-light);
+    }
+    @media (min-width: 768px) {
+      .about-columns {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    .about-cell {
+      margin: 0;
+      padding: 2.5rem;
+      border-bottom: 1px solid var(--stroke-light);
+    }
+    @media (min-width: 768px) {
+      .about-cell {
+        padding: 2.5rem 2.75rem;
+        padding-bottom: 3rem;
+        border-bottom: none;
+      }
+      .about-cell + .about-cell {
+        border-left: 1px solid var(--stroke-light);
+      }
+    }
+    .about-col-heading {
+      margin: 0;
+      max-width: 24rem;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgba(12, 12, 10, 1);
+    }
+    .about-col-body {
+      margin: 0;
+      margin-top: 16px;
+      max-width: 35.5rem;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+      color: rgba(12, 12, 10, 1);
+    }
+    @media (max-width: 767px) {
+      .about-title {
+        font-size: clamp(1.75rem, 6vw, 2.75rem);
+      }
+    }
+    /* Three Engines — The TMOE Architecture (Figma) */
+    .engines-section {
+      background-color: rgb(22, 23, 29);
+      color: #fff;
+    }
+    .engines-border {
+      border-color: rgba(255, 255, 255, 0.09) !important;
+    }
+    .engines-header {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-top: 2.25rem;
+      padding-bottom: 2.25rem;
+    }
+    @media (min-width: 768px) {
+      .engines-header {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        padding-top: 3rem;
+        padding-bottom: 2.75rem;
+      }
+    }
+    .engines-eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .engines-title {
+      margin: 0;
+      margin-top: 12px;
+      max-width: 76rem;
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 60px;
+      letter-spacing: 0;
+      color: #fff;
+    }
+    .engines-lede {
+      margin: 0;
+      margin-top: 16px;
+      max-width: 76rem;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0;
+      color: #fff;
+    }
+    .engines-row {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    .engines-row:last-of-type {
+      border-bottom: none;
+    }
+    .engines-copy {
+      padding: 1.5rem 1rem;
+    }
+    @media (min-width: 768px) {
+      .engines-copy {
+        padding: 2rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .engines-copy {
+        padding: 2.5rem;
+        padding-right: 2.75rem;
+      }
+    }
+    .engines-card-eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 16px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgb(134, 126, 142);
+    }
+    .engines-card-title {
+      margin: 0;
+      margin-top: 12px;
+      max-width: 36rem;
+      font-size: 26px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0;
+      color: #fff;
+    }
+    .engines-card-body {
+      margin: 0;
+      margin-top: 16px;
+      max-width: 36rem;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: 0;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .engines-explore {
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      padding: 6px 16px;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: 0;
+      color: #fff;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: transparent;
+      text-decoration: none;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .engines-explore:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffffff;
+      color: #ffffff;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+    }
+    .engines-media {
+      min-height: 16rem;
+      border-left: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    .engines-media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 17.5rem;
+      object-fit: cover;
+    }
+    @media (max-width: 767px) {
+      .engines-media img {
+        min-height: 0;
+        height: auto;
+      }
+    }
+    @media (max-width: 1023px) {
+      .engines-media {
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.09);
+        min-height: 14rem;
+      }
+    }
+    /* Why Us (Figma) */
+    .why-section {
+      background: #fff;
+      color: rgba(12, 12, 10, 1);
+    }
+    .why-header {
+      padding-bottom: 2.5rem;
+    }
+    @media (min-width: 768px) {
+      .why-header {
+        padding-bottom: 2.75rem;
+      }
+    }
+    .why-eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(12, 12, 10, 1);
+    }
+    .why-title {
+      margin: 0;
+      margin-top: 12px;
+      max-width: 76rem;
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgba(12, 12, 10, 1);
+    }
+    .why-matrix {
+      margin-top: 2.75rem;
+    }
+    @media (min-width: 768px) {
+      .why-matrix {
+        margin-top: 3.25rem;
+      }
+    }
+    .why-row {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 4.5rem;
+      padding: 1.625rem 2rem;
+      font-size: 18px;
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+    }
+    @media (min-width: 768px) {
+      .why-row {
+        min-height: 4.75rem;
+        padding: 1.75rem 2.25rem;
+      }
+    }
+    .why-row-neg {
+      font-weight: 500;
+      color: rgba(12, 12, 10, 0.5);
+    }
+    .why-row-text-neg {
+      text-decoration: line-through;
+    }
+    .why-row-pos {
+      font-weight: 600;
+      color: rgba(12, 12, 10, 1);
+    }
+    .why-bullet {
+      flex-shrink: 0;
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 1px;
+    }
+    .why-bullet-muted {
+      background: rgba(12, 12, 10, 0.22);
+    }
+    .why-bullet-accent {
+      background: rgb(232, 80, 26);
+    }
+    .why-callout {
+      padding: 2.75rem 1.5rem 3rem;
+      text-align: center;
+      background: #fff;
+      border-top: 1px solid var(--stroke-light);
+    }
+    @media (min-width: 768px) {
+      .why-callout {
+        padding: 3.25rem 2rem 3.5rem;
+      }
+    }
+    .why-callout-muted {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgba(12, 12, 10, 0.45);
+      text-align: center;
+    }
+    .why-callout-strong {
+      margin: 0;
+      margin-top: 8px;
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgba(12, 12, 10, 1);
+      text-align: center;
+    }
+    .why-accent {
+      color: rgb(232, 80, 26);
+    }
+    @media (max-width: 767px) {
+      .why-title {
+        font-size: clamp(1.75rem, 6vw, 2.75rem);
+      }
+      .why-callout-muted {
+        font-size: 24px;
+      }
+      .why-callout-strong {
+        font-size: 24px;
+      }
+    }
+    /* Network Commerce — three cards (Figma) */
+    .commerce-section {
+      background: #fff;
+      color: rgba(12, 12, 10, 1);
+    }
+   
+    .commerce-header {
+      margin: 0;
+      padding: 0 0 2.5rem;
+      border-bottom: 1px solid var(--stroke-light);
+    }
+    @media (min-width: 768px) {
+      .commerce-header {
+        padding-bottom: 2.75rem;
+      }
+    }
+    .commerce-eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(12, 12, 10, 1);
+    }
+    .commerce-title {
+      margin: 0;
+      margin-top: 12px;
+      max-width: 76rem;
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgba(12, 12, 10, 1);
+    }
+    .commerce-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    @media (min-width: 768px) {
+      .commerce-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    .commerce-card {
+      margin: 0;
+      padding: 2.25rem 1.5rem 2.75rem;
+    }
+    @media (min-width: 768px) {
+      .commerce-card {
+        padding: 40px;
+      }
+    }
+    .commerce-card-num {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgb(232, 80, 26);
+    }
+    .commerce-card-heading {
+      margin: 0;
+      margin-top: 12px;
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgba(12, 12, 10, 1);
+    }
+    .commerce-card-desc {
+      margin: 0;
+      margin-top: 12px;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: rgba(12, 12, 10, 1);
+    }
+    .commerce-card-visual {
+      margin-top: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      width: 234px;
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    /* Insights — MarvelOf (Figma) */
+    .insights-section {
+      background-color: rgb(22, 23, 29);
+      color: #fff;
+    }
+    .insights-marvel-panel {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    .insights-marvel-header {
+      margin: 0;
+      padding: 2rem 1rem 1.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    @media (min-width: 768px) {
+      .insights-marvel-header {
+        padding: 2.5rem 2rem 2.25rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .insights-marvel-header {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+      }
+    }
+    .insights-marvel-eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .insights-marvel-title {
+      margin: 0;
+      margin-top: 12px;
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      color: #fff;
+    }
+    .insights-marvel-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .insights-marvel-grid > * + * {
+      border-top: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    @media (min-width: 1024px) {
+      .insights-marvel-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .insights-marvel-grid > * + * {
+        border-top: none;
+        border-left: 1px solid rgba(255, 255, 255, 0.09);
+      }
+    }
+    .insights-marvel-copy {
+      padding: 2rem 1rem;
+      align-self: start;
+    }
+    @media (min-width: 768px) {
+      .insights-marvel-copy {
+        padding: 2.5rem 2rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      .insights-marvel-copy {
+        padding: 2.75rem 2.5rem 3rem;
+      }
+    }
+    .insights-marvel-lede {
+      margin: 0;
+      margin-top: 28px;
+      max-width: 36rem;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 29.75px;
+      letter-spacing: 0;
+      color: #fff;
+    }
+    @media (max-width: 767px) {
+      .insights-marvel-lede {
+        font-size: 16px;
+        margin-top: 0;
+      }
+    }
+    .insights-marvel-list {
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .insights-marvel-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0;
+      margin-top: 14px;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0;
+      color: #fff;
+    }
+    .insights-marvel-list li:first-child {
+      margin-top: 0;
+    }
+    .insights-marvel-bullet {
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgb(232, 80, 26);
+      margin-top: 1px;
+    }
+    .insights-marvel-cta {
+      margin-top: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      padding: 6px 16px;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: 0;
+      color: #fff;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: transparent;
+      text-decoration: none;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .insights-marvel-cta:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffffff;
+      color: #ffffff;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+    }
+    .insights-marvel-media {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* min-height: 20rem; */
+      background-color: #16171D;
+      background-image: url("./images/orange_bg.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
+    }
+    @media (max-width: 767px) {
+      .insights-marvel-media {
+        order: 1;
+      }
+      .insights-marvel-copy {
+        order: 2;
+      }
+    }
+    .insights-marvel-zoom {
+      width: 100%;
+      transform: scale(1);
+      transform-origin: center;
+      transition: transform 0.35s ease;
+      will-change: transform;
+    }
+    .insights-marvel-img {
+      display: block;
+      width: 94%;
+      margin-top: 24px;
+      max-width: 100%;
+      height: auto;
+      margin-left: auto;
+      margin-right: auto;
+      object-fit: contain;
+    }
+    .insights-marvel-grid:has(.insights-marvel-cta:hover) .insights-marvel-zoom,
+    .insights-marvel-grid:has(.insights-marvel-cta:focus-visible) .insights-marvel-zoom {
+      transform: scale(1.04);
+    }
+    .insights-marvel-follow {
+      margin-top: 3rem;
+      padding-top: 0;
+    }
+    @media (min-width: 768px) {
+      .insights-marvel-follow {
+        margin-top: 3.5rem;
+      }
+    }
+    .insights-scaling-intro {
+      margin: 0;
+      padding-bottom: 2.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    @media (min-width: 768px) {
+      .insights-scaling-intro {
+        padding-bottom: 3rem;
+      }
+    }
+    .insights-scaling-headline {
+      margin: 0;
+      margin-top: 20px;
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      text-align: center;
+      color: #fff;
+    }
+    .insights-label-rails {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .insights-tech-eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .insights-scaling-lede {
+      margin: 0 auto;
+      margin-top: 16px;
+      max-width: 46rem;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0;
+      text-align: center;
+      color: #fff;
+    }
+    .insights-tech-panel {
+      margin-top: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-top: none;
+    }
+    .insights-tech-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .insights-tech-grid > * + * {
+      border-top: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    @media (min-width: 768px) {
+      .insights-tech-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .insights-tech-grid > * + * {
+        border-top: none;
+        border-left: 1px solid rgba(255, 255, 255, 0.09);
+      }
+    }
+    .insights-tech-card {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 2.25rem 1.5rem 2.75rem;
+      text-align: left;
+    }
+    @media (min-width: 768px) {
+      .insights-tech-card {
+        padding: 40px;
+      }
+    }
+    .insights-tech-num {
+      margin: 0;
+      align-self: flex-start;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0;
+      text-align: left;
+      color: rgb(232, 80, 26);
+    }
+    .insights-tech-img {
+      display: block;
+      align-self: center;
+      width: 234px;
+      max-width: 100%;
+      height: auto;
+      margin-top: 1.25rem;
+      margin-left: auto;
+      margin-right: auto;
+      object-fit: contain;
+    }
+    .insights-tech-title {
+      margin: 0;
+      margin-top: 1.25rem;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 22rem;
+      width: 100%;
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      text-align: start;
+      color: #fff;
+    }
+    .insights-tech-desc {
+      margin: 0;
+      margin-top: 12px;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 22rem;
+      width: 100%;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      text-align: start;
+      color: #fff;
+    }
+    /* Our Network — partner rows + infinite marquee */
+    .network-section {
+      background-color: rgb(22, 23, 29);
+      --network-line: var(--stroke-dark);
+    }
+    .network-header {
+      margin: 0;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--network-line);
+    }
+    @media (min-width: 768px) {
+      .network-header {
+        padding-bottom: 3rem;
+      }
+    }
+    @media (max-width: 767px) {
+        .insights-tech-title {
+          font-size: 20px;
+        }
+        .insights-tech-desc {
+          font-size: 16px;
+        }
+    }
+    .network-eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: left;
+      color: #fff;
+    }
+    .network-title {
+      margin: 0;
+      margin-top: 12px;
+      max-width: 75.875rem;
+      font-size: clamp(1.75rem, 5vw, 2.75rem);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -1px;
+      color: #fff;
+    }
+    @media (min-width: 768px) {
+      .network-title {
+        font-size: 44px;
+      }
+    }
+    .network-rows {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .network-row-label {
+      margin: 0;
+      padding: 1rem 0 0.75rem;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: left;
+      color: #fff;
+      border-bottom: 1px solid var(--network-line);
+    }
+    .network-row + .network-row .network-row-label {
+      border-top: 1px solid var(--network-line);
+    }
+    @media (min-width: 768px) {
+      .network-row-label {
+        padding: 1.25rem 0 0.875rem;
+      }
+    }
+    .network-marquee-viewport {
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+      border-left: 1px solid var(--network-line);
+      border-right: 1px solid var(--network-line);
+      background: rgb(22, 23, 29);
+    }
+    .network-rows > .network-row:last-child .network-marquee-viewport {
+      border-bottom: 1px solid var(--network-line);
+    }
+    .network-marquee-track {
+      display: flex;
+      width: max-content;
+      animation: network-marquee-scroll var(--marquee-duration, 45s) linear infinite;
+    }
+    .network-marquee-track:hover {
+      animation-play-state: paused;
+    }
+    @keyframes network-marquee-scroll {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .network-marquee-track {
+        animation: none;
+      }
+      .network-marquee-set[aria-hidden="true"] {
+        display: none;
+      }
+    }
+    .network-marquee-set {
+      display: flex;
+      flex-shrink: 0;
+      align-items: stretch;
+    }
+    .network-logo-cell {
+      box-sizing: border-box;
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      width: 258px;
+      height: 96px;
+      min-height: 96px;
+      padding: 0 16px;
+      border-right: 1px solid var(--network-line);
+      background: rgb(22, 23, 29);
+    }
+    .network-logo-cell img {
+      display: block;
+      width: auto;
+      height: auto;
+      /* max-width: min(234px, 100%); */
+      /* max-height: 48px; */
+      margin-left: auto;
+      margin-right: auto;
+      object-fit: contain;
+    }
+    .network-text-cell {
+      box-sizing: border-box;
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      width: 258px;
+      height: 96px;
+      min-height: 96px;
+      padding: 0 16px;
+      border-right: 1px solid var(--network-line);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.88);
+    }
+    .network-marquee--media {
+      --marquee-duration: 36s;
+    }
+    .network-marquee--brands {
+      --marquee-duration: 40s;
+    }
+    .network-marquee--solution {
+      --marquee-duration: 38s;
+    }
+    /* Final CTA — Figma (grain bg image + type) */
+    .cta-section {
+      background-color: #16171D;
+    }
+    .cta-panel {
+      position: relative;
+      overflow: hidden;
+      background-color: #e54717;
+      background-image: url("./images/orange_bg.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 22rem;
+      padding: 4rem 1.5rem;
+      box-sizing: border-box;
+    }
+    @media (min-width: 768px) {
+      .cta-panel {
+        min-height: 30rem;
+        padding: 5.5rem 2.5rem;
+      }
+    }
+    .cta-eyebrow {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 1.98px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+    }
+    .cta-title {
+      margin: 0;
+      margin-top: 1rem;
+      max-width: 28rem;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: 0;
+      color: #fff;
+      text-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+    }
+    @media (min-width: 1024px) {
+      .cta-title {
+        max-width: none;
+        font-size: 64px;
+        line-height: 70.62px;
+      }
+    }
+    .cta-lede {
+      margin: 0;
+      margin-top: 1rem;
+      max-width: 33.875rem;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      color: #fff;
+      text-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+    }
+    @media (min-width: 768px) {
+      .cta-lede {
+        margin-top: 1.125rem;
+      }
+    }
+    .cta-btn {
+      margin-top: 1.75rem;
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 145px;
+      height: 44px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      color: #0b0b0b;
+      text-decoration: none;
+      text-align: center;
+      white-space: nowrap;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .cta-btn:hover {
+      background: #f4f4f5;
+      border-color: rgba(0, 0, 0, 0.12);
+    }
+    .cta-btn:focus {
+      outline: none;
+    }
+    .cta-btn:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+    @media (max-width: 380px) {
+      .cta-btn {
+        white-space: normal;
+        min-width: 0;
+        width: 100%;
+        max-width: 12rem;
+        height: auto;
+        min-height: 44px;
+      }
+    }
+    /* Site footer (Figma) */
+    .site-footer {
+      background-color: #16171D;
+      color: #fff;
+    }
+    .footer-inner {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+    @media (min-width: 768px) {
+      .footer-inner {
+        padding-top: 40px;
+        padding-bottom: 30px;
+      }
+    }
+    .footer-main {
+      display: grid;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    @media (min-width: 640px) and (max-width: 1023px) {
+      .footer-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 2rem;
+        row-gap: 2.5rem;
+      }
+      .footer-logo-wrap {
+        grid-column: 1 / -1;
+      }
+    }
+    @media (min-width: 1024px) {
+      .footer-main {
+        grid-template-columns: 95.5px repeat(4, minmax(0, 1fr));
+        column-gap: 2.5rem;
+        row-gap: 0;
+      }
+    }
+    .footer-logo-wrap {
+      margin: 0;
+    }
+    .footer-logo-link {
+      display: inline-flex;
+      align-items: center;
+      width: 95.5px;
+      height: 40px;
+      line-height: 0;
+    }
+    .footer-logo-img {
+      width: 95.5px;
+      height: 40px;
+      object-fit: contain;
+      display: block;
+    }
+    .footer-col {
+      margin: 0;
+      min-width: 0;
+    }
+    .footer-heading {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .footer-list {
+      margin: 1rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .footer-list li {
+      margin: 0;
+      margin-top: 0.5rem;
+    }
+    .footer-list li:first-child {
+      margin-top: 0;
+    }
+    .footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .footer-link:hover {
+      color: rgba(255, 255, 255, 1);
+    }
+    .footer-link:focus {
+      outline: none;
+    }
+    .footer-link:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.5);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+    .footer-ext-icon {
+      flex-shrink: 0;
+      width: 12px;
+      height: 12px;
+      opacity: 0.9;
+    }
+    .footer-bottom {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--stroke-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    @media (min-width: 768px) {
+      .footer-bottom {
+        flex-direction: row;
+        align-items: center;
+        gap: 1.5rem;
+      }
+    }
+    .footer-copy {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem 1.25rem;
+    }
+    .footer-meta-link {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .footer-meta-link:hover {
+      color: rgba(255, 255, 255, 0.65);
+    }
+    .footer-meta-link:focus {
+      outline: none;
+    }
+    .footer-meta-link:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.35);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+    @media (max-width: 767px) {
+      :root {
+        --rail-offset: 16px;
+        --rail-gutter: 0px;
+      }
+      .frame-rails {
+        border-bottom: 1px solid var(--stroke-light);
+      }
+      .page-frame::before,
+      .page-frame::after,
+      .frame-rails::before,
+      .frame-rails::after,
+      .rails::before,
+      .rails::after {
+        display: none;
+      }
+      .between-rails {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .rail-rule {
+        display: none;
+      }
+      .hero-mobile-divider {
+        display: block;
+      }
+      .hero-content {
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
+        text-align: left;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-title {
+        font-size: clamp(2.25rem, 9.5vw, 2.75rem);
+        line-height: 1.12;
+        letter-spacing: -1.5px;
+        max-width: 100%;
+      }
+      .hero-subtitle {
+        font-size: 1rem;
+        line-height: 1.5;
+        margin-left: 0;
+        margin-right: 0;
+        max-width: 22rem;
+      }
+      .hero-cta {
+        flex-direction: row;
+        align-items: stretch;
+        width: 100%;
+        max-width: 22rem;
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 1.25rem;
+        gap: 0.75rem;
+      }
+      .hero-btn {
+        flex: 1 1 0%;
+        min-width: 0;
+        width: auto;
+        min-height: 44px;
+        padding: 0.75rem 1rem;
+        justify-content: center;
+        font-size: 0.9375rem;
+        text-align: center;
+      }
+      .hero-figure {
+        margin-top: 1.5rem;
+      }
+      .engines-title {
+        font-size: clamp(1.75rem, 5vw, 2.75rem);
+        line-height: 1.25;
+      }
+      .engines-header {
+        text-align: left;
+      }
+      .engines-copy {
+        text-align: left;
+      }
+      .engines-card-title,
+      .engines-card-body,
+      .engines-card-eyebrow {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .engines-explore {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .insights-marvel-title,
+      .insights-scaling-headline {
+        font-size: clamp(1.625rem, 5vw, 2.75rem);
+      }
+      .insights-marvel-header {
+        text-align: left;
+      }
+      .insights-scaling-intro {
+        text-align: left;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .insights-marvel-copy {
+        text-align: left;
+      }
+      .insights-scaling-lede {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .insights-marvel-list li {
+        justify-content: flex-start;
+      }
+      .insights-marvel-cta {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .insights-marvel-img {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .commerce-title {
+        font-size: clamp(1.75rem, 5.5vw, 2.75rem);
+      }
+      .metrics-section .metrics-rule > div:first-child {
+        text-align: left;
+      }
+      .metrics-section .metrics-rule > div:first-child .metrics-headline,
+      .metrics-section .metrics-rule > div:first-child .metrics-lede,
+      .metrics-section .metrics-rule > div:first-child .metrics-markets {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .metrics-section article {
+        text-align: left;
+      }
+      .metrics-section article .metrics-cell-desc {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .about-cell {
+        padding: 1.75rem 1rem;
+      }
+      .about-col-heading {
+        font-size: 1.25rem;
+      }
+      .about-col-body {
+        font-size: 1rem;
+        line-height: 1.45;
+      }
+      .why-row {
+        font-size: 1rem;
+        padding: 1.25rem 1rem;
+        min-height: 0;
+      }
+      .why-callout {
+        padding: 2.25rem 1rem 2.5rem;
+      }
+      .how-mobile-step {
+        padding: 2rem 1rem 1.5rem;
+      }
+      .how-mobile-connector {
+        bottom: -10px;
+        width: 16px;
+        height: 16px;
+      }
+      .how-footer-ribbon {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .commerce-card {
+        padding: 1.75rem 1rem 2rem;
+      }
+      .commerce-card-heading {
+        font-size: 1.375rem;
+      }
+      .commerce-card-desc {
+        font-size: 1rem;
+      }
+      .commerce-card-visual {
+        margin-top: 1.5rem;
+      }
+      .insights-tech-card {
+        padding: 1.75rem 1rem 2rem;
+      }
+      .cta-panel {
+        min-height: 18rem;
+        padding: 3rem 1rem;
+      }
+      .cta-btn {
+        width: 100%;
+        max-width: 12rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .footer-inner {
+        padding-top: 2.25rem;
+        padding-bottom: 2.25rem;
+      }
+      .footer-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 1.75rem;
+        row-gap: 2rem;
+      }
+      .footer-logo-wrap {
+        grid-column: 1 / -1;
+      }
+      .footer-bottom {
+        margin-top: 2rem;
+        padding-top: 1.25rem;
+        gap: 0.85rem;
+      }
+      .footer-copy {
+        line-height: 1.2;
+      }
+      .footer-meta {
+        flex-wrap: nowrap;
+        gap: 0.75rem 1rem;
+      }
+      .footer-meta-link {
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#16171D] text-gray-900 antialiased overflow-x-hidden">
+  <div class="page-frame">
+  <!-- Header -->
+  <header class="site-header frame-rails sticky top-0 z-50">
+    <div class="container-shell">
+      <div class="flex h-16 items-center justify-between md:h-[72px]">
+        <a
+          href="#"
+          class="inline-flex items-center gap-3"
+          aria-label="TMOE home page"
+        >
+          <img src="./images/tmoe_logo.svg" alt="TMOE brand logo" class="h-8 w-auto" />
+        </a>
+        <nav class="hidden items-center gap-6 text-sm font-medium text-gray-700 lg:flex" aria-label="Primary navigation">
+          <a class="transition-all duration-300 hover:text-gray-900" href="#platform">C2C Platform</a>
+          <a class="transition-all duration-300 hover:text-gray-900" href="#metrics">Insights</a>
+          <a class="transition-all duration-300 hover:text-gray-900" href="#about">About</a>
+          <a class="transition-all duration-300 hover:text-gray-900" href="#engines">Technologies</a>
+          <a class="transition-all duration-300 hover:text-gray-900" href="#insights">Discovery Engine</a>
+          <!-- <a class="transition-all duration-300 hover:text-gray-900" href="#group">TMOE Group</a> -->
+        </nav>
+        <div class="flex items-center gap-3 lg:gap-4">
+          <!-- <button type="button" class="inline-flex items-center gap-1 text-sm font-medium text-gray-600 transition-all duration-300 hover:text-gray-900 focus:outline-none" aria-label="Change language">
+            <img src="./images/en_lang.svg" alt="English language icon" class="h-3.5 w-3.5" />
+            en
+          </button> -->
+          <a
+            href="https://tmoe-c2c-platform.vercel.app/register"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 transition-all duration-300 hover:border-[#F15A22] hover:bg-[#F15A22] hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 lg:px-5 lg:py-2.5"
+          >
+            Partner with us
+          </a>
+        </div>
+        <button
+          id="menu-toggle"
+          type="button"
+          class="hidden"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+          aria-label="Toggle mobile menu"
+        >
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="between-rails">
+      <div class="rail-rule rail-rule-light"></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section id="group" class="py-4 md:py-12">
+      <div class="container-shell fade-in">
+        <div class="hero-wrap">
+          <div class="hero-content py-12 text-left md:py-20 md:text-left">
+            <h1 class="hero-title">
+              Building the
+              <br class="md:hidden" />
+              Infrastructure for
+              <br class="md:hidden" />
+              Network <span class="commerce-gradient">Commerce</span>
+              <br class="hidden md:block" />
+            </h1>
+            <p class="hero-subtitle">
+              Connecting intent, decisions, and outcomes across trusted networks of content, commerce, and data.
+            </p>
+            <div class="hero-cta">
+              <a
+                href="#engines"
+                class="hero-btn hero-btn-primary focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
+              >
+                Explore the Network
+              </a>
+              <!-- <a
+                href="#partner"
+                class="hero-btn hero-btn-secondary focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
+              >
+                For Publishers
+              </a> -->
+            </div>
+          </div>
+          <figure class="hero-figure">
+            <img
+              src="./images/infra_bg_logo.svg"
+              alt="Illustration of TMOE infrastructure connecting publishers, platforms, and analytics outcomes"
+              class="opacity-95"
+            />
+          </figure>
+        </div>
+      </div>
+      <div class="between-rails">
+        <div class="hero-mobile-divider mt-14 rail-rule rail-rule-light md:mt-20"></div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="platform" class="how-section py-4 md:py-[4.5rem]">
+      <div class="container-shell pb-4 md:pb-10">
+        <p class="how-eyebrow">HOW IT WORKS</p>
+        <h2 class="how-title">Intent To Outcome &amp; Back Again.</h2>
+      </div>
+
+      <div class="between-rails">
+        <div class="rail-rule rail-rule-light"></div>
+      </div>
+
+      <!-- Desktop process rail (rail-to-rail) -->
+      <div class="between-rails hidden lg:block">
+        <div class="border-x bg-white line-light">
+          <div class="grid grid-cols-5 divide-x line-light">
+            <article class="relative px-5 py-12 text-center xl:px-8">
+              <p class="how-step-num">01</p>
+              <h3 class="how-step-title-row">Intent</h3>
+              <p class="how-step-desc">User Discovers Trusted Publisher Content</p>
+              <span class="how-arrow-connector" aria-hidden="true">
+                <img src="./images/right_arrow.svg" alt="" width="20" height="20" />
+              </span>
+            </article>
+            <article class="relative px-5 py-12 text-center xl:px-8">
+              <p class="how-step-num">02</p>
+              <h3 class="how-step-title-row">Decision</h3>
+              <p class="how-step-desc">Buyer Guides, Comparisons, Discovery</p>
+              <span class="how-arrow-connector" aria-hidden="true">
+                <img src="./images/right_arrow.svg" alt="" width="20" height="20" />
+              </span>
+            </article>
+            <article class="relative px-5 py-12 text-center xl:px-8">
+              <p class="how-step-num">03</p>
+              <h3 class="how-step-title-row">Action</h3>
+              <p class="how-step-desc">Commerce Embedded In Content</p>
+              <span class="how-arrow-connector" aria-hidden="true">
+                <img src="./images/right_arrow.svg" alt="" width="20" height="20" />
+              </span>
+            </article>
+            <article class="relative px-5 py-12 text-center xl:px-8">
+              <p class="how-step-num">04</p>
+              <h3 class="how-step-title-row">Outcome</h3>
+              <p class="how-step-desc">GMV-Driven, Attributed Performance</p>
+              <span class="how-arrow-connector" aria-hidden="true">
+                <img src="./images/right_arrow.svg" alt="" width="20" height="20" />
+              </span>
+            </article>
+            <article class="px-5 py-12 text-center xl:px-8">
+              <p class="how-step-num">05</p>
+              <h3 class="how-step-title-row">
+                Learning
+                <span class="how-learning-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12a9 9 0 10-3.05 6.65" stroke="rgba(12,12,10,0.9)" stroke-width="1.75" stroke-linecap="round" />
+                    <path d="M21 3v6h-6" stroke="rgba(12,12,10,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </h3>
+              <p class="how-step-desc">Insights Improve Every Future Journey</p>
+            </article>
+          </div>
+        </div>
+        <div class="how-footer-ribbon line-light">
+          <p class="how-footer-text">
+            Learning Flows Back Into The System&nbsp;&mdash;&nbsp;<em>Improving Every Future Decision.</em>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mobile process rail (rail-to-rail) -->
+    <section class="how-section lg:hidden pb-12">
+      <div class="between-rails overflow-hidden border-t bg-white line-light">
+        <article class="how-mobile-step border-b line-light">
+          <p class="how-step-num">01</p>
+          <h3 class="how-step-title-row">Intent</h3>
+          <p class="how-step-desc">User Discovers Trusted Publisher Content</p>
+          <span class="how-mobile-connector" aria-hidden="true">
+            <img src="./images/bottom_arrow.svg" alt="" width="100%" height="100%" />
+          </span>
+        </article>
+        <article class="how-mobile-step border-b line-light">
+          <p class="how-step-num">02</p>
+          <h3 class="how-step-title-row">Decision</h3>
+          <p class="how-step-desc">Buyer Guides, Comparisons, Discovery</p>
+          <span class="how-mobile-connector" aria-hidden="true">
+            <img src="./images/bottom_arrow.svg" alt="" width="100%" height="100%" />
+          </span>
+        </article>
+        <article class="how-mobile-step border-b line-light">
+          <p class="how-step-num">03</p>
+          <h3 class="how-step-title-row">Action</h3>
+          <p class="how-step-desc">Commerce Embedded In Content</p>
+          <span class="how-mobile-connector" aria-hidden="true">
+            <img src="./images/bottom_arrow.svg" alt="" width="100%" height="100%" />
+          </span>
+        </article>
+        <article class="how-mobile-step border-b line-light">
+          <p class="how-step-num">04</p>
+          <h3 class="how-step-title-row">Outcome</h3>
+          <p class="how-step-desc">GMV-Driven, Attributed Performance</p>
+          <span class="how-mobile-connector" aria-hidden="true">
+            <img src="./images/bottom_arrow.svg" alt="" width="100%" height="100%" />
+          </span>
+        </article>
+        <article class="how-mobile-step text-center">
+          <p class="how-step-num">05</p>
+          <h3 class="how-step-title-row">
+            Learning
+            <span class="how-learning-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 12a9 9 0 10-3.05 6.65" stroke="rgba(12,12,10,0.9)" stroke-width="1.75" stroke-linecap="round" />
+                <path d="M21 3v6h-6" stroke="rgba(12,12,10,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </h3>
+          <p class="how-step-desc">Insights Improve Every Future Journey</p>
+        </article>
+      </div>
+      <div class="between-rails">
+        <div class="how-footer-ribbon line-light">
+          <p class="how-footer-text">
+            Learning Flows Back Into The System&nbsp;&mdash;&nbsp;<em>Improving Every Future Decision.</em>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Metrics -->
+    <section id="metrics" class="metrics-section py-0 text-white" aria-labelledby="metrics-heading">
+      <div class="between-rails">
+        <div class="grid grid-cols-1 border md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] metrics-rule">
+          <div class="border-b px-4 py-8 md:border-b-0 md:border-r md:p-10 md:py-12 metrics-rule">
+            <p class="metrics-eyebrow">THE NETWORK TODAY</p>
+            <h2 id="metrics-heading" class="metrics-headline">Real outcomes.<br />At scale.</h2>
+            <p class="metrics-lede">
+              Four metrics that define the TMOE network&nbsp;&mdash; each one a direct result of connecting intent, decision, and commerce across trusted publisher ecosystems.
+            </p>
+            <p class="metrics-markets">
+              Multi-Markets&nbsp;:&nbsp;<span class="metrics-markets-accent">SE Asia, India, UAE, Europe, &amp; Americas.</span>
+            </p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2">
+            <article class="border-b px-4 py-8 sm:border-r md:p-10 md:py-12 metrics-rule">
+              <p class="metrics-cell-label">GMV DELIVERED</p>
+              <p class="metrics-cell-value">$120M+</p>
+              <p class="metrics-cell-desc">Gross merchandise value delivered across the TMOE network to date.</p>
+            </article>
+            <article class="border-b px-4 py-8 md:p-10 md:py-12 metrics-rule">
+              <p class="metrics-cell-label">DECISION RATE</p>
+              <p class="metrics-cell-value">5&ndash;8%</p>
+              <p class="metrics-cell-desc">Decision-stage conversion&nbsp;&mdash; well above standard traffic benchmarks.</p>
+            </article>
+            <article class="border-b px-4 py-8 sm:border-r sm:border-b-0 md:p-10 md:py-12 metrics-rule">
+              <p class="metrics-cell-label">KEY PUBLISHER PARTNERS</p>
+              <p class="metrics-cell-value">10+</p>
+              <p class="metrics-cell-desc">Active across India and Southeast Asia&nbsp;&mdash; 10+ markets in the network.</p>
+            </article>
+            <article class="px-4 py-8 md:p-10 md:py-12">
+              <p class="metrics-cell-label">USER JOURNEYS</p>
+              <p class="metrics-cell-value">High Intent</p>
+              <p class="metrics-cell-desc">Not just traffic&nbsp;&mdash; users arrive in active decision mode, driving measurable outcomes.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about-section py-0" aria-labelledby="about-heading">
+      <div class="between-rails">
+        <header class="about-header">
+          <p class="about-eyebrow-wrap">
+            WHO WE ARE
+          </p>
+          <h2 id="about-heading" class="about-title">A Company Built On Conviction.</h2>
+        </header>
+        <div class="rail-rule rail-rule-light"></div>
+        <div class="about-columns">
+          <article class="about-cell">
+            <h3 class="about-col-heading">How Do We Plan To Achieve This?</h3>
+            <p class="about-col-body">
+              To unify all user touch points across the digital ecosystem into a network that transforms audience intent into measurable growth and lasting customer relationships.
+            </p>
+          </article>
+          <article class="about-cell">
+            <h3 class="about-col-heading">What We Wish To Achieve?</h3>
+            <p class="about-col-body">
+              To simplify and enrich every customer decision journey through trusted networks of content, commerce, and data.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Three Engines -->
+    <section id="engines" class="engines-section rails rails-dark py-0" aria-labelledby="engines-heading">
+      <div class="between-rails">
+        <header class="engines-header border-b engines-border">
+          <p class="engines-eyebrow">THE TMOE ARCHITECTURE</p>
+          <h2 id="engines-heading" class="engines-title">Three Engines.<br />One Network Commerce System.</h2>
+          <p class="engines-lede">Each layer strengthens the other&nbsp;&mdash; creating a continuous decision system from intent to outcome.</p>
+        </header>
+        <article class="engines-row grid overflow-hidden lg:grid-cols-2">
+          <div class="engines-copy">
+            <p class="engines-card-eyebrow">PUBLISHER REVENUE ENGINE</p>
+            <h3 class="engines-card-title">TMOE Platform Network</h3>
+            <p class="engines-card-body">
+              A publisher-led Content-to-Commerce ecosystem. Connects brands with decision-stage content across trusted publisher networks&nbsp;&mdash; spanning buyer guides, product comparisons, category discovery, and commerce journeys embedded within content. Publishers gain sustainable monetisation. Brands gain measurable outcomes.
+            </p>
+            <!-- <a href="#" class="engines-explore focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-[rgb(22,23,29)]">Explore</a> -->
+          </div>
+          <div class="engines-media">
+            <img
+              src="./images/tmoe_platform_network.svg"
+              alt="Diagram of TMOE platform network connecting media houses, brands, and agencies to commerce outcomes"
+              width="647"
+              height="344"
+            />
+          </div>
+        </article>
+        <article class="engines-row grid overflow-hidden lg:grid-cols-2">
+          <div class="engines-copy">
+            <p class="engines-card-eyebrow">DECISION INTELLIGENCE</p>
+            <h3 class="engines-card-title">MarvelOf.com</h3>
+            <p class="engines-card-body">
+              TMOE&apos;s owned consumer decision platform. It provides decision-stage guidance, builds consumer trust, experiments with content formats, &amp; generates intelligence that improves the entire network. The R&amp;D &amp; innovation lab for Network Commerce.
+            </p>
+            <!-- <a href="#" class="engines-explore focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-[rgb(22,23,29)]">Explore</a> -->
+          </div>
+          <div class="engines-media">
+            <img
+              src="./images/marvelof.svg"
+              alt="Visual of MarvelOf decision engine workflow with intent filtering and insight feedback loops"
+              width="647"
+              height="344"
+            />
+          </div>
+        </article>
+        <article class="engines-row grid overflow-hidden lg:grid-cols-2">
+          <div class="engines-copy">
+            <p class="engines-card-eyebrow">INFRASTRUCTURE &amp; SCALE</p>
+            <h3 class="engines-card-title">Technology Partnerships</h3>
+            <p class="engines-card-body">
+              We provide GTM strategy and bottom-funnel execution for media and martech, powered by an infrastructure layer that enables automation, measurement, distribution, and continuity across markets via our CMS, Loyalty (Enigmatic Smile), Autonomous Newsroom Platform, and future CaaS platforms.
+            </p>
+            <!-- <a href="#" class="engines-explore focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-[rgb(22,23,29)]">Explore</a> -->
+          </div>
+          <div class="engines-media">
+            <img
+              src="./images/technology_partnerships.svg"
+              alt="Technology stack illustration showing CMS, loyalty, and data systems powering TMOE network"
+              width="647"
+              height="344"
+            />
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Why Us -->
+    <section class="why-section py-16 md:py-20" aria-labelledby="why-heading">
+      <div class="between-rails">
+        <header class="why-header px-4 md:px-[40px]">
+          <p class="why-eyebrow">WHY US</p>
+          <h2 id="why-heading" class="why-title">A Different Kind Of Network.</h2>
+        </header>
+        <div class="why-matrix border line-light overflow-hidden">
+          <div class="divide-y line-light md:hidden">
+            <p class="why-row why-row-neg">
+              <span class="why-bullet why-bullet-muted" aria-hidden="true"></span>
+              <span class="why-row-text-neg">We don&apos;t compete for attention.</span>
+            </p>
+            <p class="why-row why-row-pos">
+              <span class="why-bullet why-bullet-accent" aria-hidden="true"></span>
+              We activate intent.
+            </p>
+            <p class="why-row why-row-neg">
+              <span class="why-bullet why-bullet-muted" aria-hidden="true"></span>
+              <span class="why-row-text-neg">We don&apos;t rely on traffic.</span>
+            </p>
+            <p class="why-row why-row-pos">
+              <span class="why-bullet why-bullet-accent" aria-hidden="true"></span>
+              We operate across networks.
+            </p>
+            <p class="why-row why-row-neg">
+              <span class="why-bullet why-bullet-muted" aria-hidden="true"></span>
+              <span class="why-row-text-neg">We don&apos;t optimise impressions.</span>
+            </p>
+            <p class="why-row why-row-pos">
+              <span class="why-bullet why-bullet-accent" aria-hidden="true"></span>
+              We drive outcomes.
+            </p>
+            <p class="why-row why-row-neg">
+              <span class="why-bullet why-bullet-muted" aria-hidden="true"></span>
+              <span class="why-row-text-neg">This is not affiliate.</span>
+            </p>
+            <p class="why-row why-row-pos">
+              <span class="why-bullet why-bullet-accent" aria-hidden="true"></span>
+              This is Network Commerce.
+            </p>
+          </div>
+          <div class="hidden md:grid md:grid-cols-2">
+            <div class="divide-y line-light">
+              <p class="why-row why-row-neg">
+                <span class="why-bullet why-bullet-muted" aria-hidden="true"></span>
+                <span class="why-row-text-neg">We don&apos;t compete for attention.</span>
+              </p>
+              <p class="why-row why-row-neg">
+                <span class="why-bullet why-bullet-muted" aria-hidden="true"></span>
+                <span class="why-row-text-neg">We don&apos;t rely on traffic.</span>
+              </p>
+              <p class="why-row why-row-neg">
+                <span class="why-bullet why-bullet-muted" aria-hidden="true"></span>
+                <span class="why-row-text-neg">We don&apos;t optimise impressions.</span>
+              </p>
+              <p class="why-row why-row-neg">
+                <span class="why-bullet why-bullet-muted" aria-hidden="true"></span>
+                <span class="why-row-text-neg">This is not affiliate.</span>
+              </p>
+            </div>
+            <div class="divide-y line-light border-t md:border-t-0 md:border-l line-light">
+              <p class="why-row why-row-pos">
+                <span class="why-bullet why-bullet-accent" aria-hidden="true"></span>
+                We activate intent.
+              </p>
+              <p class="why-row why-row-pos">
+                <span class="why-bullet why-bullet-accent" aria-hidden="true"></span>
+                We operate across networks.
+              </p>
+              <p class="why-row why-row-pos">
+                <span class="why-bullet why-bullet-accent" aria-hidden="true"></span>
+                We drive outcomes.
+              </p>
+              <p class="why-row why-row-pos">
+                <span class="why-bullet why-bullet-accent" aria-hidden="true"></span>
+                This is Network Commerce.
+              </p>
+            </div>
+          </div>
+          <div class="why-callout">
+            <p class="why-callout-muted">This is not affiliate.</p>
+            <p class="why-callout-strong">This is <span class="why-accent">Network Commerce.</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Network Commerce -->
+    <section class="commerce-section" aria-labelledby="commerce-heading">
+      <div class="between-rails">
+        <div class="commerce-panel">
+          <header class="commerce-header px-4 md:px-[40px]">
+            <p class="commerce-eyebrow">NETWORK COMMERCE</p>
+            <h2 id="commerce-heading" class="commerce-title">Content-To-Commerce At Every Decision Stage.</h2>
+          </header>
+          <div class="commerce-grid divide-y line-light md:divide-x md:divide-y-0">
+          <article class="commerce-card">
+            <p class="commerce-card-num">01</p>
+            <h3 class="commerce-card-heading">Decision-Stage Content</h3>
+            <p class="commerce-card-desc">Buyer guides, comparisons, category discovery</p>
+            <img
+              src="./images/decision_stage_content.svg"
+              alt="Decision-stage content card with comparison table and editorial recommendation"
+              class="commerce-card-visual"
+              width="234"
+              height="204"
+            />
+          </article>
+          <article class="commerce-card">
+            <p class="commerce-card-num">02</p>
+            <h3 class="commerce-card-heading">Embedded Commerce</h3>
+            <p class="commerce-card-desc">Journeys built inside trusted content</p>
+            <img
+              src="./images/embedded_commerce.svg"
+              alt="Embedded commerce experience with in-content product and pricing module"
+              class="commerce-card-visual"
+              width="234"
+              height="204"
+            />
+          </article>
+          <article class="commerce-card">
+            <p class="commerce-card-num">03</p>
+            <h3 class="commerce-card-heading">Measurable Outcomes</h3>
+            <p class="commerce-card-desc">GMV-driven, attribution-aware performance</p>
+            <img
+              src="./images/measurable_outcomes.svg"
+              alt="Measurable outcomes analytics card showing GMV, conversion and market metrics"
+              class="commerce-card-visual"
+              width="234"
+              height="204"
+            />
+          </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Decision Engine -->
+    <section id="insights" class="insights-section rails rails-dark text-white" aria-labelledby="insights-marvel-heading">
+      <div class="between-rails">
+        <div class="insights-marvel-panel">
+          <header class="insights-marvel-header">
+            <p class="insights-marvel-eyebrow">MARVELOF.COM</p>
+            <h2 id="insights-marvel-heading" class="insights-marvel-title">The Decision Engine Powering The Network.</h2>
+          </header>
+          <div class="insights-marvel-grid">
+            <div class="insights-marvel-copy">
+              <p class="insights-marvel-lede">
+                MarvelOf.com is TMOE&apos;s owned decision platform&nbsp;&mdash; generating consumer intelligence and format experimentation that improves every layer of the network.
+              </p>
+              <ul class="insights-marvel-list">
+                <li>
+                  <span class="insights-marvel-bullet" aria-hidden="true"></span>
+                  High-intent content platform
+                </li>
+                <li>
+                  <span class="insights-marvel-bullet" aria-hidden="true"></span>
+                  Innovation &amp; testing layer for new formats
+                </li>
+                <li>
+                  <span class="insights-marvel-bullet" aria-hidden="true"></span>
+                  Live environment for Network Commerce R&amp;D
+                </li>
+              </ul>
+              <a href="https://marvelof.com/" target="_blank" rel="noopener noreferrer" class="insights-marvel-cta focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-[rgb(22,23,29)]">Explore MarvelOf</a>
+            </div>
+            <div class="insights-marvel-media">
+              <div class="insights-marvel-zoom">
+                <img
+                  src="./images/marvelof_page.png"
+                  alt="MarvelOf page preview"
+                  class="insights-marvel-img"
+                  width="234"
+                  height="204"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <article class="insights-marvel-follow space-y-0">
+          <header class="insights-scaling-intro">
+            <div class="insights-label-rails">
+              <p class="insights-tech-eyebrow">TMOE TECHNOLOGY</p>
+            </div>
+            <h2 class="insights-scaling-headline">Built For Scaling.</h2>
+            <p class="insights-scaling-lede">The infrastructure layer enabling automation, measurement, and continuity across markets.</p>
+          </header>
+          <div class="insights-tech-panel">
+            <div class="insights-tech-grid">
+              <article class="insights-tech-card">
+                <p class="insights-tech-num">01</p>
+                <img
+                  src="./images/CMS_Content_Systems.svg"
+                  alt="CMS and content systems interface for publisher operations at scale"
+                  class="insights-tech-img"
+                  width="234"
+                  height="156"
+                />
+                <h3 class="insights-tech-title">CMS &amp; Content Systems</h3>
+                <p class="insights-tech-desc">
+                  Infrastructure that powers publisher content at scale&nbsp;&mdash; flexible, fast, and built for commerce integration.
+                </p>
+              </article>
+              <article class="insights-tech-card">
+                <p class="insights-tech-num">02</p>
+                <img
+                  src="./images/Loyalty_Engagement.svg"
+                  alt="Loyalty and engagement diagram connecting users, data, and behavior signals"
+                  class="insights-tech-img"
+                  width="234"
+                  height="156"
+                />
+                <h3 class="insights-tech-title">Loyalty &amp; Engagement</h3>
+                <p class="insights-tech-desc">
+                  Enigmatic Smile&nbsp;&mdash; the loyalty layer connecting consumer behaviour across the network over time.
+                </p>
+              </article>
+              <article class="insights-tech-card">
+                <p class="insights-tech-num">03</p>
+                <img
+                  src="./images/Data_Optimisation.svg"
+                  alt="Data optimization flow turning market and behavioral data into actionable insights"
+                  class="insights-tech-img"
+                  width="234"
+                  height="156"
+                />
+                <h3 class="insights-tech-title">Data &amp; Optimisation</h3>
+                <p class="insights-tech-desc">
+                  Attribution, measurement, and continuous optimisation infrastructure across publishers and markets.
+                </p>
+              </article>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Our Network -->
+    <section class="network-section rails rails-dark text-white pb-16 md:pb-24" aria-labelledby="network-heading">
+      <div class="between-rails">
+        <div class="">
+          <header class="network-header px-4 pt-10 md:px-[40px] md:pt-[40px]">
+            <p class="network-eyebrow">Our network</p>
+            <h2 id="network-heading" class="network-title">Trusted Publishers Across India &amp; Southeast Asia.</h2>
+          </header>
+          <div class="network-rows">
+            <div class="network-row">
+              <p class="network-row-label px-4 md:px-[40px]">Media partners</p>
+              <div class="network-marquee-viewport network-marquee--media">
+                <div class="network-marquee-track">
+                  <div class="network-marquee-set">
+                    <div class="network-logo-cell"><img src="./images/ndtv.svg" alt="NDTV" /></div>
+                    <div class="network-logo-cell"><img src="./images/zee.svg" alt="Z News" /></div>
+                    <div class="network-logo-cell"><img src="./images/theindianexpress.svg" alt="The Indian Express" /></div>
+                    <div class="network-logo-cell"><img src="./images/one_india.svg" alt="Oneindia" /></div>
+                    <div class="network-logo-cell"><img src="./images/tempo.svg" alt="Tempo" /></div>
+                  </div>
+                  <div class="network-marquee-set" aria-hidden="true">
+                    <div class="network-logo-cell"><img src="./images/ndtv.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/zee.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/theindianexpress.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/one_india.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/tempo.svg" alt="" /></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="network-row">
+              <p class="network-row-label px-4 md:px-[40px]">Brand partners</p>
+              <div class="network-marquee-viewport network-marquee--brands">
+                <div class="network-marquee-track">
+                  <div class="network-marquee-set">
+                    <div class="network-logo-cell"><img src="./images/myntra.svg" alt="Myntra" /></div>
+                    <div class="network-logo-cell"><img src="./images/zalora.svg" alt="Zalora" /></div>
+                    <div class="network-logo-cell"><img src="./images/shopee.svg" alt="Shopee" /></div>
+                    <div class="network-logo-cell"><img src="./images/nykaa.svg" alt="Nykaa" /></div>
+                    <div class="network-logo-cell"><img src="./images/ajio.svg" alt="Ajio" /></div>
+                  </div>
+                  <div class="network-marquee-set" aria-hidden="true">
+                    <div class="network-logo-cell"><img src="./images/myntra.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/zalora.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/shopee.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/nykaa.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/ajio.svg" alt="" /></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="network-row">
+              <p class="network-row-label px-4 md:px-[40px]">Solution partners</p>
+              <div class="network-marquee-viewport network-marquee--solution">
+                <div class="network-marquee-track">
+                  <div class="network-marquee-set">
+                    <div class="network-text-cell">VVR Advisors</div>
+                    <div class="network-text-cell">BRB Legal</div>
+                    <div class="network-text-cell">Bannerflow</div>
+                    <div class="network-text-cell">Bannerflow</div>
+                    <div class="network-text-cell">Cavai</div>
+                  </div>
+                  <div class="network-marquee-set" aria-hidden="true">
+                    <div class="network-text-cell">VVR Advisors</div>
+                    <div class="network-text-cell">BRB Legal</div>
+                    <div class="network-text-cell">Bannerflow</div>
+                    <div class="network-text-cell">Bannerflow</div>
+                    <div class="network-text-cell">Cavai</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section id="partner" class="cta-section rails rails-dark" aria-labelledby="cta-heading">
+      <div class="between-rails">
+        <div class="pt-0">
+          <div class="cta-panel">
+            <p class="cta-eyebrow">The Marvel Of Everything</p>
+            <h2 id="cta-heading" class="cta-title">Build with us.</h2>
+            <p class="cta-lede">For Publishers, Brands, &amp; Strategic Partners.</p>
+            <a href="https://tmoe-c2c-platform.vercel.app/register" target="_blank" rel="noopener noreferrer" class="cta-btn">Partner With Us</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer rails rails-dark" role="contentinfo">
+    <div class="between-rails">
+      <div class="footer-inner">
+        <div class="footer-main px-4 md:px-[40px]">
+          <div class="footer-logo-wrap">
+            <a href="#" class="footer-logo-link" aria-label="TMOE home">
+              <img
+                src="./images/tmoe_logo_footer.svg"
+                alt=""
+                class="footer-logo-img"
+                width="96"
+                height="40"
+              />
+            </a>
+          </div>
+          <div class="footer-col">
+            <h3 class="footer-heading">Network</h3>
+            <ul class="footer-list">
+              <li><a href="#" class="footer-link">Network Commerce</a></li>
+              <li><a href="https://marvelof.com/" target="_blank" rel="noopener noreferrer" class="footer-link">MarvelOf.com</a></li>
+              <li><a href="#" class="footer-link">Technology</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3 class="footer-heading">Partners</h3>
+            <ul class="footer-list">
+              <li><a href="#" class="footer-link">Publisher Program</a></li>
+              <li><a href="#" class="footer-link">Brand Partners</a></li>
+              <li><a href="#" class="footer-link">Tech Partners</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3 class="footer-heading">Company</h3>
+            <ul class="footer-list">
+              <li><a href="#" class="footer-link">About</a></li>
+              <li><a href="mailto:Partner@marvelof.com" class="footer-link">Partner@marvelof.com</a></li>
+              <li>
+                <a href="https://www.linkedin.com/company/the-marvel-of-everything/jobs/" target="_blank" rel="noopener noreferrer" class="footer-link">
+                  Careers
+                  <svg class="footer-ext-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h3 class="footer-heading">Social</h3>
+            <ul class="footer-list">
+              <li><a href="https://www.linkedin.com/company/the-marvel-of-everything" target="_blank" rel="noopener noreferrer me" class="footer-link">LinkedIn</a></li>
+              <li><a href="https://www.instagram.com/marvelof__/" target="_blank" rel="noopener noreferrer me" class="footer-link">Instagram</a></li>
+              <li><a href="https://www.facebook.com/marvelofeverything" target="_blank" rel="noopener noreferrer me" class="footer-link">Facebook</a></li>
+              <li><a href="https://www.youtube.com/@TheMarvelOfEverything" target="_blank" rel="noopener noreferrer me" class="footer-link">YouTube</a></li>
+              <li><a href="https://x.com/MarvelOf__" target="_blank" rel="noopener noreferrer me" class="footer-link">X</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom px-4 md:px-[40px]">
+          <p class="footer-copy">© 2025 THE MARVEL OF EVERYTHING. All Rights Reserved.</p>
+          <nav class="footer-meta" aria-label="Regions and legal">
+            <a href="#" class="footer-meta-link">India</a>
+            <a href="#" class="footer-meta-link">Singapore</a>
+            <a href="#" class="footer-meta-link">UAE</a>
+            <a href="#" class="footer-meta-link">Privacy</a>
+            <a href="#" class="footer-meta-link">Terms</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </footer>
+  </div>
+
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const siteHeader = document.querySelector("header.sticky");
+
+    if (menuToggle && mobileMenu) {
+      menuToggle.addEventListener("click", () => {
+        const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
+        menuToggle.setAttribute("aria-expanded", String(!isExpanded));
+        mobileMenu.classList.toggle("hidden");
+      });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", (event) => {
+        const rawHash = anchor.getAttribute("href");
+        if (!rawHash || rawHash === "#") return;
+
+        const target = document.querySelector(rawHash);
+        if (!target) return;
+
+        event.preventDefault();
+        const headerOffset = siteHeader ? siteHeader.offsetHeight : 0;
+        const targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerOffset - 8;
+
+        window.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: "smooth",
+        });
+      });
+    });
+  </script>
+</body>
+</html>
