@@ -12,6 +12,21 @@
     name="keywords"
     content="network commerce, content to commerce, decision intelligence, TMOE, publisher network"
   />
+  <link rel="canonical" href="https://themarvelof.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://themarvelof.com/" />
+  <meta property="og:title" content="TMOE | Building the Infrastructure for Network Commerce" />
+  <meta property="og:description" content="TMOE connects intent, decisions, and outcomes across trusted networks of content, commerce, and data." />
+  <meta property="og:image" content="https://themarvelof.com/images/tmoe_preview.jpeg" />
+  <meta property="og:image:secure_url" content="https://themarvelof.com/images/tmoe_preview.jpeg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://themarvelof.com/" />
+  <meta property="twitter:title" content="TMOE | Building the Infrastructure for Network Commerce" />
+  <meta property="twitter:description" content="TMOE connects intent, decisions, and outcomes across trusted networks of content, commerce, and data." />
+  <meta property="twitter:image" content="https://themarvelof.com/images/tmoe_preview.jpeg" />
   <link rel="icon" type="image/svg+xml" href="./images/tmoe_logo.svg" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link
@@ -125,6 +140,30 @@
       background-color: #ffffff;
       background-image: none;
     }
+    .site-header.is-dark {
+      background-color: #16171D;
+      background-image: none;
+    }
+    .site-header.is-dark::before,
+    .site-header.is-dark::after {
+      background: var(--stroke-dark);
+    }
+    .site-header.is-dark .site-nav-link {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .site-header.is-dark .site-nav-link:hover {
+      color: #ffffff;
+    }
+    .site-header.is-dark .site-header-cta {
+      border-color: rgba(255, 255, 255, 0.22);
+      background: transparent;
+      color: #ffffff;
+    }
+    .site-header.is-dark .site-header-cta:hover {
+      border-color: #f15a22;
+      background: #f15a22;
+      color: #ffffff;
+    }
     @media (min-width: 1025px) {
       .site-header {
         background-color: transparent;
@@ -134,6 +173,18 @@
           transparent var(--rail-offset),
           #ffffff var(--rail-offset),
           #ffffff calc(100% - var(--rail-offset)),
+          transparent calc(100% - var(--rail-offset)),
+          transparent 100%
+        );
+      }
+      .site-header.is-dark {
+        background-color: transparent;
+        background-image: linear-gradient(
+          to right,
+          transparent 0,
+          transparent var(--rail-offset),
+          #16171D var(--rail-offset),
+          #16171D calc(100% - var(--rail-offset)),
           transparent calc(100% - var(--rail-offset)),
           transparent 100%
         );
@@ -248,9 +299,10 @@
       align-items: center;
       justify-content: center;
       position: relative;
+      width: fit-content;
       min-height: 2.45rem;
       padding: 0.52rem 1.22rem;
-      border-radius: 0.12rem;
+      border-radius: 4px;
       font-size: 1.01rem;
       line-height: 1;
       transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease;
@@ -1156,7 +1208,7 @@
       justify-content: center;
       /* min-height: 20rem; */
       background-color: #16171D;
-      background-image: url("./images/orange_bg.png");
+      background-image: url("./images/orange_bg.jpeg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -1420,7 +1472,7 @@
       width: max-content;
       animation: network-marquee-scroll var(--marquee-duration, 45s) linear infinite;
     }
-    .network-marquee-track:hover {
+    .network-rows:hover .network-marquee-track {
       animation-play-state: paused;
     }
     @keyframes network-marquee-scroll {
@@ -1466,6 +1518,11 @@
       margin-left: auto;
       margin-right: auto;
       object-fit: contain;
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+    }
+    .network-logo-cell:hover img {
+      opacity: 1;
     }
     .network-text-cell {
       box-sizing: border-box;
@@ -1486,10 +1543,10 @@
       color: rgba(255, 255, 255, 0.88);
     }
     .network-marquee--media {
-      --marquee-duration: 36s;
+      --marquee-duration: 38s;
     }
     .network-marquee--brands {
-      --marquee-duration: 40s;
+      --marquee-duration: 38s;
     }
     .network-marquee--solution {
       --marquee-duration: 38s;
@@ -1502,7 +1559,7 @@
       position: relative;
       overflow: hidden;
       background-color: #e54717;
-      background-image: url("./images/orange_bg.png");
+      background-image: url("./images/orange_bg.jpeg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -1640,9 +1697,13 @@
     }
     @media (min-width: 1024px) {
       .footer-main {
-        grid-template-columns: 95.5px repeat(4, minmax(0, 1fr));
-        column-gap: 2.5rem;
+        grid-template-columns: 95.5px minmax(220px, max-content) minmax(220px, max-content);
+        justify-content: start;
+        column-gap: 4.25rem;
         row-gap: 0;
+      }
+      .footer-col-social {
+        margin-left: 200px !important;
       }
     }
     .footer-logo-wrap {
@@ -1714,6 +1775,20 @@
       width: 12px;
       height: 12px;
       opacity: 0.9;
+    }
+    .footer-careers-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      height: 18px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: #f15a22;
+      font-size: 10px;
+      font-weight: 600;
+      line-height: 1;
+      color: #fff;
     }
     .footer-bottom {
       margin-top: 2.5rem;
@@ -1823,9 +1898,8 @@
         gap: 0.75rem;
       }
       .hero-btn {
-        flex: 1 1 0%;
-        min-width: 0;
-        width: auto;
+        flex: 0 0 auto;
+        width: fit-content;
         min-height: 44px;
         padding: 0.75rem 1rem;
         justify-content: center;
@@ -1994,32 +2068,40 @@
   <!-- Header -->
   <header class="site-header frame-rails sticky top-0 z-50">
     <div class="container-shell">
-      <div class="flex h-16 items-center justify-between md:h-[72px]">
-        <a
-          href="#"
-          class="inline-flex items-center gap-3"
-          aria-label="TMOE home page"
-        >
-          <img src="./images/tmoe_logo.svg" alt="TMOE brand logo" class="h-8 w-auto" />
-        </a>
-        <nav class="hidden items-center gap-6 text-sm font-medium text-gray-700 lg:flex" aria-label="Primary navigation">
-          <a class="transition-all duration-300 hover:text-gray-900" href="#platform">C2C Platform</a>
-          <a class="transition-all duration-300 hover:text-gray-900" href="#metrics">Insights</a>
-          <a class="transition-all duration-300 hover:text-gray-900" href="#about">About</a>
-          <a class="transition-all duration-300 hover:text-gray-900" href="#engines">Technologies</a>
-          <a class="transition-all duration-300 hover:text-gray-900" href="#insights">Discovery Engine</a>
-          <!-- <a class="transition-all duration-300 hover:text-gray-900" href="#group">TMOE Group</a> -->
-        </nav>
-        <div class="flex items-center gap-3 lg:gap-4">
+      <div class="flex h-16 items-center md:h-[72px]">
+        <div class="flex items-center gap-10">
+          <a
+            href="https://themarvelof.com/"
+            class="inline-flex items-center gap-3"
+            aria-label="TMOE home page"
+          >
+            <img
+              id="site-logo"
+              src="./images/tmoe_logo.svg"
+              data-logo-light="./images/tmoe_logo.svg"
+              data-logo-dark="./images/tmoe_logo_white.svg"
+              alt="TMOE brand logo"
+              class="h-8 w-auto"
+            />
+          </a>
+          <nav class="hidden items-center gap-6 text-sm font-medium text-gray-700 lg:flex" aria-label="Primary navigation">
+            <a class="site-nav-link transition-all duration-300 hover:text-gray-900" href="#metrics">About</a>
+            <a class="site-nav-link transition-all duration-300 hover:text-gray-900" href="#engines">Monetization Engine</a>
+            <a class="site-nav-link transition-all duration-300 hover:text-gray-900" href="#commerce">C2C Platform</a>
+            <a class="site-nav-link transition-all duration-300 hover:text-gray-900" href="#insights">Decision Engine</a>
+            <!-- <a class="transition-all duration-300 hover:text-gray-900" href="#group">TMOE Group</a> -->
+          </nav>
+        </div>
+        <div class="ml-auto flex items-center gap-3 lg:gap-4">
           <!-- <button type="button" class="inline-flex items-center gap-1 text-sm font-medium text-gray-600 transition-all duration-300 hover:text-gray-900 focus:outline-none" aria-label="Change language">
             <img src="./images/en_lang.svg" alt="English language icon" class="h-3.5 w-3.5" />
             en
           </button> -->
           <a
-            href="https://tmoe-c2c-platform.vercel.app/register"
+            href="https://themarvelof.com/register"
             target="_blank"
             rel="noopener noreferrer"
-            class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 transition-all duration-300 hover:border-[#F15A22] hover:bg-[#F15A22] hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 lg:px-5 lg:py-2.5"
+            class="site-header-cta rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 transition-all duration-300 hover:border-[#F15A22] hover:bg-[#F15A22] hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 lg:px-5 lg:py-2.5"
           >
             Partner with us
           </a>
@@ -2039,7 +2121,7 @@
       </div>
     </div>
     <div class="between-rails">
-      <div class="rail-rule rail-rule-light"></div>
+      <div id="header-divider" class="rail-rule rail-rule-light"></div>
     </div>
   </header>
 
@@ -2077,7 +2159,7 @@
           </div>
           <figure class="hero-figure">
             <img
-              src="./images/infra_bg_logo.svg"
+              src="./images/infra_bg_logo.webp"
               alt="Illustration of TMOE infrastructure connecting publishers, platforms, and analytics outcomes"
               class="opacity-95"
             />
@@ -2228,13 +2310,13 @@
               Four metrics that define the TMOE network&nbsp;&mdash; each one a direct result of connecting intent, decision, and commerce across trusted publisher ecosystems.
             </p>
             <p class="metrics-markets">
-              Multi-Markets&nbsp;:&nbsp;<span class="metrics-markets-accent">SE Asia, India, UAE, Europe, &amp; Americas.</span>
+              Multi-Markets&nbsp;:&nbsp;<span class="metrics-markets-accent">SE Asia, India, UAE, LATAM, Europe & North America.</span>
             </p>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2">
             <article class="border-b px-4 py-8 sm:border-r md:p-10 md:py-12 metrics-rule">
               <p class="metrics-cell-label">GMV DELIVERED</p>
-              <p class="metrics-cell-value">$120M+</p>
+              <p class="metrics-cell-value" data-counter-end="120" data-counter-format="money-m-plus">$120M+</p>
               <p class="metrics-cell-desc">Gross merchandise value delivered across the TMOE network to date.</p>
             </article>
             <article class="border-b px-4 py-8 md:p-10 md:py-12 metrics-rule">
@@ -2244,7 +2326,7 @@
             </article>
             <article class="border-b px-4 py-8 sm:border-r sm:border-b-0 md:p-10 md:py-12 metrics-rule">
               <p class="metrics-cell-label">KEY PUBLISHER PARTNERS</p>
-              <p class="metrics-cell-value">10+</p>
+              <p class="metrics-cell-value" data-counter-end="10" data-counter-format="plus">10+</p>
               <p class="metrics-cell-desc">Active across India and Southeast Asia&nbsp;&mdash; 10+ markets in the network.</p>
             </article>
             <article class="px-4 py-8 md:p-10 md:py-12">
@@ -2271,13 +2353,13 @@
           <article class="about-cell">
             <h3 class="about-col-heading">How Do We Plan To Achieve This?</h3>
             <p class="about-col-body">
-              To unify all user touch points across the digital ecosystem into a network that transforms audience intent into measurable growth and lasting customer relationships.
+              By unifying all user touch points across the digital ecosystem into a network that transforms audience intent into measurable growth and lasting customer relationships.
             </p>
           </article>
           <article class="about-cell">
             <h3 class="about-col-heading">What We Wish To Achieve?</h3>
             <p class="about-col-body">
-              To simplify and enrich every customer decision journey through trusted networks of content, commerce, and data.
+              Simplify and enrich every customer decision journey through trusted networks of content, commerce, and data.
             </p>
           </article>
         </div>
@@ -2303,7 +2385,7 @@
           </div>
           <div class="engines-media">
             <img
-              src="./images/tmoe_platform_network.svg"
+              src="./images/tmoe_platform_network.webp"
               alt="Diagram of TMOE platform network connecting media houses, brands, and agencies to commerce outcomes"
               width="647"
               height="344"
@@ -2315,13 +2397,13 @@
             <p class="engines-card-eyebrow">DECISION INTELLIGENCE</p>
             <h3 class="engines-card-title">MarvelOf.com</h3>
             <p class="engines-card-body">
-              TMOE&apos;s owned consumer decision platform. It provides decision-stage guidance, builds consumer trust, experiments with content formats, &amp; generates intelligence that improves the entire network. The R&amp;D &amp; innovation lab for Network Commerce.
+              TMOE-owned consumer decision platform. It provides decision-stage guidance, builds consumer trust, experiments with content formats, & generates intelligence that improves the entire network. The R&D & innovation lab for Network Commerce.
             </p>
             <!-- <a href="#" class="engines-explore focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-[rgb(22,23,29)]">Explore</a> -->
           </div>
           <div class="engines-media">
             <img
-              src="./images/marvelof.svg"
+              src="./images/Illustration-decision-funnel-with-content-cards.gif"
               alt="Visual of MarvelOf decision engine workflow with intent filtering and insight feedback loops"
               width="647"
               height="344"
@@ -2333,13 +2415,13 @@
             <p class="engines-card-eyebrow">INFRASTRUCTURE &amp; SCALE</p>
             <h3 class="engines-card-title">Technology Partnerships</h3>
             <p class="engines-card-body">
-              We provide GTM strategy and bottom-funnel execution for media and martech, powered by an infrastructure layer that enables automation, measurement, distribution, and continuity across markets via our CMS, Loyalty (Enigmatic Smile), Autonomous Newsroom Platform, and future CaaS platforms.
+              Technology partnerships built for scale, combining GTM strategy, operational execution, and modular platform infrastructure across content systems, loyalty ecosystems, automation tools, enterprise workflows, and future Commercialisation-as-a-Service platforms.
             </p>
             <!-- <a href="#" class="engines-explore focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-[rgb(22,23,29)]">Explore</a> -->
           </div>
           <div class="engines-media">
             <img
-              src="./images/technology_partnerships.svg"
+              src="./images/technology_partnerships.webp"
               alt="Technology stack illustration showing CMS, loyalty, and data systems powering TMOE network"
               width="647"
               height="344"
@@ -2438,7 +2520,7 @@
     </section>
 
     <!-- Network Commerce -->
-    <section class="commerce-section" aria-labelledby="commerce-heading">
+    <section id="commerce" class="commerce-section" aria-labelledby="commerce-heading">
       <div class="between-rails">
         <div class="commerce-panel">
           <header class="commerce-header px-4 md:px-[40px]">
@@ -2498,7 +2580,7 @@
           <div class="insights-marvel-grid">
             <div class="insights-marvel-copy">
               <p class="insights-marvel-lede">
-                MarvelOf.com is TMOE&apos;s owned decision platform&nbsp;&mdash; generating consumer intelligence and format experimentation that improves every layer of the network.
+                MarvelOf.com is TMOE-owned decision platform — generating consumer intelligence and format experimentation that improves every layer of the network.
               </p>
               <ul class="insights-marvel-list">
                 <li>
@@ -2530,7 +2612,7 @@
           </div>
         </div>
 
-        <article class="insights-marvel-follow space-y-0">
+        <!-- <article class="insights-marvel-follow space-y-0">
           <header class="insights-scaling-intro">
             <div class="insights-label-rails">
               <p class="insights-tech-eyebrow">TMOE TECHNOLOGY</p>
@@ -2584,7 +2666,7 @@
               </article>
             </div>
           </div>
-        </article>
+        </article> -->
       </div>
     </section>
 
@@ -2602,18 +2684,20 @@
               <div class="network-marquee-viewport network-marquee--media">
                 <div class="network-marquee-track">
                   <div class="network-marquee-set">
-                    <div class="network-logo-cell"><img src="./images/ndtv.svg" alt="NDTV" /></div>
                     <div class="network-logo-cell"><img src="./images/zee.svg" alt="Z News" /></div>
                     <div class="network-logo-cell"><img src="./images/theindianexpress.svg" alt="The Indian Express" /></div>
-                    <div class="network-logo-cell"><img src="./images/one_india.svg" alt="Oneindia" /></div>
-                    <div class="network-logo-cell"><img src="./images/tempo.svg" alt="Tempo" /></div>
+                    <div class="network-logo-cell"><img src="./images/tempo.svg?c=1" alt="Tempo" /></div>
+                    <div class="network-logo-cell"><img src="./images/rev.svg" alt="Rev" /></div>
+                    <div class="network-logo-cell"><img src="./images/kompas.svg" alt="Kompas" /></div>
+                    <div class="network-logo-cell"><img src="./images/detik.svg" alt="Detik" /></div>
                   </div>
                   <div class="network-marquee-set" aria-hidden="true">
-                    <div class="network-logo-cell"><img src="./images/ndtv.svg" alt="" /></div>
                     <div class="network-logo-cell"><img src="./images/zee.svg" alt="" /></div>
                     <div class="network-logo-cell"><img src="./images/theindianexpress.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/one_india.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/tempo.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/tempo.svg?c=1" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/rev.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/kompas.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/detik.svg" alt="" /></div>
                   </div>
                 </div>
               </div>
@@ -2626,36 +2710,52 @@
                     <div class="network-logo-cell"><img src="./images/myntra.svg" alt="Myntra" /></div>
                     <div class="network-logo-cell"><img src="./images/zalora.svg" alt="Zalora" /></div>
                     <div class="network-logo-cell"><img src="./images/shopee.svg" alt="Shopee" /></div>
-                    <div class="network-logo-cell"><img src="./images/nykaa.svg" alt="Nykaa" /></div>
-                    <div class="network-logo-cell"><img src="./images/ajio.svg" alt="Ajio" /></div>
+                    <div class="network-logo-cell"><img src="./images/amazon.svg" alt="Amazon" /></div>
+                    <div class="network-logo-cell"><img src="./images/temu.svg" alt="Temu" /></div>
+                    <div class="network-logo-cell"><img src="./images/zomato.svg" alt="Zomato" /></div>
+                    <div class="network-logo-cell"><img src="./images/tiktok.svg" alt="TikTok" /></div>
+                    <div class="network-logo-cell"><img src="./images/traveloka.svg" alt="Traveloka" /></div>
+                    <div class="network-logo-cell"><img src="./images/hm.svg" alt="H&M" /></div>
+                    <div class="network-logo-cell"><img src="./images/skyscanner.svg" alt="Skyscanner" /></div>
+                    <div class="network-logo-cell"><img src="./images/pantaloons.svg" alt="Pantaloons" /></div>
+                    <div class="network-logo-cell"><img src="./images/tira.svg" alt="Tira" /></div>
+                    <div class="network-logo-cell"><img src="./images/shein.svg" alt="SHEIN" /></div>
                   </div>
                   <div class="network-marquee-set" aria-hidden="true">
                     <div class="network-logo-cell"><img src="./images/myntra.svg" alt="" /></div>
                     <div class="network-logo-cell"><img src="./images/zalora.svg" alt="" /></div>
                     <div class="network-logo-cell"><img src="./images/shopee.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/nykaa.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/ajio.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/amazon.svg" alt="Amazon" /></div>
+                    <div class="network-logo-cell"><img src="./images/temu.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/zomato.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/tiktok.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/traveloka.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/hm.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/skyscanner.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/pantaloons.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/tira.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/shein.svg" alt="" /></div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="network-row">
-              <p class="network-row-label px-4 md:px-[40px]">Solution partners</p>
+              <p class="network-row-label px-4 md:px-[40px]">Agency partners</p>
               <div class="network-marquee-viewport network-marquee--solution">
                 <div class="network-marquee-track">
                   <div class="network-marquee-set">
-                    <div class="network-text-cell">VVR Advisors</div>
-                    <div class="network-text-cell">BRB Legal</div>
-                    <div class="network-text-cell">Bannerflow</div>
-                    <div class="network-text-cell">Bannerflow</div>
-                    <div class="network-text-cell">Cavai</div>
+                    <div class="network-logo-cell"><img src="./images/rakuten.svg" alt="Rakuten" /></div>
+                    <div class="network-logo-cell"><img src="./images/mcsaatchi.svg" alt="M&C Saatchi" /></div>
+                    <div class="network-logo-cell"><img src="./images/partnerize.svg" alt="Partnerize" /></div>
+                    <div class="network-logo-cell"><img src="./images/accesstrade.svg" alt="accesstrade" /></div>
+                    <div class="network-logo-cell"><img src="./images/impact.svg" alt="impact.com" /></div>
                   </div>
                   <div class="network-marquee-set" aria-hidden="true">
-                    <div class="network-text-cell">VVR Advisors</div>
-                    <div class="network-text-cell">BRB Legal</div>
-                    <div class="network-text-cell">Bannerflow</div>
-                    <div class="network-text-cell">Bannerflow</div>
-                    <div class="network-text-cell">Cavai</div>
+                    <div class="network-logo-cell"><img src="./images/rakuten.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/mcsaatchi.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/partnerize.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/accesstrade.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/impact.svg" alt="" /></div>
                   </div>
                 </div>
               </div>
@@ -2673,7 +2773,7 @@
             <p class="cta-eyebrow">The Marvel Of Everything</p>
             <h2 id="cta-heading" class="cta-title">Build with us.</h2>
             <p class="cta-lede">For Publishers, Brands, &amp; Strategic Partners.</p>
-            <a href="https://tmoe-c2c-platform.vercel.app/register" target="_blank" rel="noopener noreferrer" class="cta-btn">Partner With Us</a>
+            <a href="https://themarvelof.com/register" target="_blank" rel="noopener noreferrer" class="cta-btn">Partner With Us</a>
           </div>
         </div>
       </div>
@@ -2696,26 +2796,26 @@
               />
             </a>
           </div>
-          <div class="footer-col">
+          <!-- <div class="footer-col">
             <h3 class="footer-heading">Network</h3>
             <ul class="footer-list">
               <li><a href="#" class="footer-link">Network Commerce</a></li>
               <li><a href="https://marvelof.com/" target="_blank" rel="noopener noreferrer" class="footer-link">MarvelOf.com</a></li>
               <li><a href="#" class="footer-link">Technology</a></li>
             </ul>
-          </div>
-          <div class="footer-col">
+          </div> -->
+          <!-- <div class="footer-col">
             <h3 class="footer-heading">Partners</h3>
             <ul class="footer-list">
               <li><a href="#" class="footer-link">Publisher Program</a></li>
               <li><a href="#" class="footer-link">Brand Partners</a></li>
               <li><a href="#" class="footer-link">Tech Partners</a></li>
             </ul>
-          </div>
+          </div> -->
           <div class="footer-col">
             <h3 class="footer-heading">Company</h3>
             <ul class="footer-list">
-              <li><a href="#" class="footer-link">About</a></li>
+              <li><a href="#metrics" class="footer-link">About</a></li>
               <li><a href="mailto:Partner@marvelof.com" class="footer-link">Partner@marvelof.com</a></li>
               <li>
                 <a href="https://www.linkedin.com/company/the-marvel-of-everything/jobs/" target="_blank" rel="noopener noreferrer" class="footer-link">
@@ -2723,11 +2823,12 @@
                   <svg class="footer-ext-icon" viewBox="0 0 12 12" width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
+                  <!-- <span class="footer-careers-badge" aria-hidden="true">2</span> -->
                 </a>
               </li>
             </ul>
           </div>
-          <div class="footer-col">
+          <div class="footer-col footer-col-social">
             <h3 class="footer-heading">Social</h3>
             <ul class="footer-list">
               <li><a href="https://www.linkedin.com/company/the-marvel-of-everything" target="_blank" rel="noopener noreferrer me" class="footer-link">LinkedIn</a></li>
@@ -2757,6 +2858,8 @@
     const menuToggle = document.getElementById("menu-toggle");
     const mobileMenu = document.getElementById("mobile-menu");
     const siteHeader = document.querySelector("header.sticky");
+    const siteLogo = document.getElementById("site-logo");
+    const headerDivider = document.getElementById("header-divider");
 
     if (menuToggle && mobileMenu) {
       menuToggle.addEventListener("click", () => {
@@ -2764,6 +2867,103 @@
         menuToggle.setAttribute("aria-expanded", String(!isExpanded));
         mobileMenu.classList.toggle("hidden");
       });
+    }
+
+    const syncNetworkMarqueeSpeed = () => {
+      const pxPerSecond = 80;
+      document.querySelectorAll(".network-marquee-viewport").forEach((viewport) => {
+        const firstSet = viewport.querySelector(".network-marquee-set");
+        if (!firstSet) return;
+        const distance = firstSet.scrollWidth;
+        if (!distance) return;
+        const duration = distance / pxPerSecond;
+        viewport.style.setProperty("--marquee-duration", `${duration}s`);
+      });
+    };
+
+    syncNetworkMarqueeSpeed();
+    window.addEventListener("resize", syncNetworkMarqueeSpeed);
+
+    const updateHeaderTheme = () => {
+      if (!siteHeader) return;
+      const probeY = Math.min(window.innerHeight - 1, Math.max(1, siteHeader.offsetHeight + 2));
+      const probeX = Math.floor(window.innerWidth / 2);
+      const elUnderHeader = document.elementFromPoint(probeX, probeY);
+      const onDarkSection = !!elUnderHeader?.closest(".rails-dark, .metrics-section, .site-footer");
+
+      siteHeader.classList.toggle("is-dark", onDarkSection);
+      if (headerDivider) {
+        headerDivider.classList.toggle("rail-rule-dark", onDarkSection);
+        headerDivider.classList.toggle("rail-rule-light", !onDarkSection);
+      }
+      if (siteLogo) {
+        const lightLogo = siteLogo.getAttribute("data-logo-light");
+        const darkLogo = siteLogo.getAttribute("data-logo-dark");
+        siteLogo.src = onDarkSection && darkLogo ? darkLogo : lightLogo || siteLogo.src;
+      }
+    };
+
+    let headerThemeTicking = false;
+    const requestHeaderThemeUpdate = () => {
+      if (headerThemeTicking) return;
+      headerThemeTicking = true;
+      requestAnimationFrame(() => {
+        updateHeaderTheme();
+        headerThemeTicking = false;
+      });
+    };
+
+    updateHeaderTheme();
+    window.addEventListener("scroll", requestHeaderThemeUpdate, { passive: true });
+    window.addEventListener("resize", requestHeaderThemeUpdate);
+
+    const metricsSection = document.getElementById("metrics");
+    const counterElements = document.querySelectorAll("[data-counter-end]");
+    let countersStarted = false;
+
+    const formatCounterValue = (value, format) => {
+      if (format === "money-m-plus") return `$${value}M+`;
+      if (format === "plus") return `${value}+`;
+      return `${value}`;
+    };
+
+    const animateCounter = (element, endValue, format, durationMs = 2600) => {
+      const startTime = performance.now();
+      const step = (now) => {
+        const progress = Math.min((now - startTime) / durationMs, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const currentValue = Math.round(endValue * eased);
+        element.textContent = formatCounterValue(currentValue, format);
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+
+    const startCounters = () => {
+      if (countersStarted) return;
+      countersStarted = true;
+      counterElements.forEach((element) => {
+        const endValue = Number(element.getAttribute("data-counter-end"));
+        const format = element.getAttribute("data-counter-format") || "";
+        if (Number.isNaN(endValue)) return;
+        element.textContent = formatCounterValue(0, format);
+        animateCounter(element, endValue, format);
+      });
+    };
+
+    if (metricsSection && counterElements.length) {
+      const counterObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              startCounters();
+              counterObserver.disconnect();
+            }
+          });
+        },
+        { threshold: 0.75 }
+      );
+      counterObserver.observe(metricsSection);
     }
 
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
