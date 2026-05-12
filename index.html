@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-5VLZZPPM');</script>
+  <!-- End Google Tag Manager -->
   <meta charset="UTF-8" />
+  <!-- Performance/compatibility meta -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#16171D" />
   <title>TMOE | Building the Infrastructure for Network Commerce</title>
   <meta
     name="description"
@@ -28,7 +38,13 @@
   <meta property="twitter:description" content="TMOE connects intent, decisions, and outcomes across trusted networks of content, commerce, and data." />
   <meta property="twitter:image" content="https://themarvelof.com/images/tmoe_preview.jpeg" />
   <link rel="icon" type="image/svg+xml" href="./images/tmoe_logo.svg" />
+  <!-- Production CSS: replace Tailwind CDN runtime with compiled stylesheet -->
+  <!-- <link rel="stylesheet" href="./styles/tailwind.output.css" /> -->
+  <!-- Temporary fallback to prevent layout break until compiled Tailwind exists -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Suggested: serve images from a CDN domain and keep WebP/AVIF variants -->
+  <link rel="preload" as="image" href="./images/infra_bg_logo.webp" fetchpriority="high" />
+  <link rel="preload" as="font" href="https://fonts.gstatic.com/s/plusjakartasans/v11/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yyg.woff2" type="font/woff2" crossorigin />
   <link
     rel="preconnect"
     href="https://fonts.googleapis.com"
@@ -42,6 +58,24 @@
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
+  <!-- SEO structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "TMOE",
+      "url": "https://themarvelof.com/",
+      "logo": "https://themarvelof.com/images/tmoe_logo.svg",
+      "description": "TMOE connects intent, decisions, and outcomes across trusted networks of content, commerce, and data.",
+      "sameAs": [
+        "https://www.linkedin.com/company/the-marvel-of-everything",
+        "https://www.instagram.com/marvelof__/",
+        "https://www.facebook.com/marvelofeverything",
+        "https://www.youtube.com/@TheMarvelOfEverything",
+        "https://x.com/MarvelOf__"
+      ]
+    }
+  </script>
   <style>
     :root {
       --dark-surface: #16171D;
@@ -52,6 +86,19 @@
     }
     body {
       font-family: "Plus Jakarta Sans", sans-serif;
+    }
+    /* Improve font rendering while webfont loads */
+    @font-face {
+      font-family: "Plus Jakarta Sans";
+      font-style: normal;
+      font-weight: 300 800;
+      font-display: swap;
+      src: local("Plus Jakarta Sans");
+    }
+    /* Non-critical sections render lazily for faster initial paint */
+    .lazy-section {
+      content-visibility: auto;
+      contain-intrinsic-size: 900px;
     }
     .container-shell {
       width: 100%;
@@ -829,6 +876,20 @@
       height: 100%;
       min-height: 17.5rem;
       object-fit: cover;
+    }
+    .engines-media--illustration {
+      padding: 9%;
+      box-sizing: border-box;
+      background-image: url("./images/green_bg.webp");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+    .engines-media--illustration img {
+      height: auto;
+      min-height: 0;
+      object-fit: contain;
+      border-radius: 10.43px;
     }
     @media (max-width: 767px) {
       .engines-media img {
@@ -2064,6 +2125,10 @@
   </style>
 </head>
 <body class="bg-[#16171D] text-gray-900 antialiased overflow-x-hidden">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5VLZZPPM"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   <div class="page-frame">
   <!-- Header -->
   <header class="site-header frame-rails sticky top-0 z-50">
@@ -2081,6 +2146,10 @@
               data-logo-light="./images/tmoe_logo.svg"
               data-logo-dark="./images/tmoe_logo_white.svg"
               alt="TMOE brand logo"
+              width="96"
+              height="40"
+              fetchpriority="high"
+              decoding="async"
               class="h-8 w-auto"
             />
           </a>
@@ -2130,7 +2199,7 @@
     <section id="group" class="py-4 md:py-12">
       <div class="container-shell fade-in">
         <div class="hero-wrap">
-          <div class="hero-content py-12 text-left md:py-20 md:text-left">
+          <div class="hero-content py-12 text-left md:py-20 pb-0 md:pb-20 md:text-left">
             <h1 class="hero-title">
               Building the
               <br class="md:hidden" />
@@ -2146,6 +2215,7 @@
               <a
                 href="#engines"
                 class="hero-btn hero-btn-primary focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
+                aria-label="Explore the TMOE network section"
               >
                 Explore the Network
               </a>
@@ -2161,6 +2231,10 @@
             <img
               src="./images/infra_bg_logo.webp"
               alt="Illustration of TMOE infrastructure connecting publishers, platforms, and analytics outcomes"
+              width="1610"
+              height="1044"
+              fetchpriority="high"
+              decoding="async"
               class="opacity-95"
             />
           </figure>
@@ -2172,7 +2246,7 @@
     </section>
 
     <!-- How It Works -->
-    <section id="platform" class="how-section py-4 md:py-[4.5rem]">
+    <section id="platform" class="how-section lazy-section py-4 md:py-[4.5rem]">
       <div class="container-shell pb-4 md:pb-10">
         <p class="how-eyebrow">HOW IT WORKS</p>
         <h2 class="how-title">Intent To Outcome &amp; Back Again.</h2>
@@ -2191,7 +2265,7 @@
               <h3 class="how-step-title-row">Intent</h3>
               <p class="how-step-desc">User Discovers Trusted Publisher Content</p>
               <span class="how-arrow-connector" aria-hidden="true">
-                <img src="./images/right_arrow.svg" alt="" width="20" height="20" />
+                <img src="./images/right_arrow.svg" alt="" width="20" height="20" loading="lazy" decoding="async" />
               </span>
             </article>
             <article class="relative px-5 py-12 text-center xl:px-8">
@@ -2199,7 +2273,7 @@
               <h3 class="how-step-title-row">Decision</h3>
               <p class="how-step-desc">Buyer Guides, Comparisons, Discovery</p>
               <span class="how-arrow-connector" aria-hidden="true">
-                <img src="./images/right_arrow.svg" alt="" width="20" height="20" />
+                <img src="./images/right_arrow.svg" alt="" width="20" height="20" loading="lazy" decoding="async" />
               </span>
             </article>
             <article class="relative px-5 py-12 text-center xl:px-8">
@@ -2207,7 +2281,7 @@
               <h3 class="how-step-title-row">Action</h3>
               <p class="how-step-desc">Commerce Embedded In Content</p>
               <span class="how-arrow-connector" aria-hidden="true">
-                <img src="./images/right_arrow.svg" alt="" width="20" height="20" />
+                <img src="./images/right_arrow.svg" alt="" width="20" height="20" loading="lazy" decoding="async" />
               </span>
             </article>
             <article class="relative px-5 py-12 text-center xl:px-8">
@@ -2215,7 +2289,7 @@
               <h3 class="how-step-title-row">Outcome</h3>
               <p class="how-step-desc">GMV-Driven, Attributed Performance</p>
               <span class="how-arrow-connector" aria-hidden="true">
-                <img src="./images/right_arrow.svg" alt="" width="20" height="20" />
+                <img src="./images/right_arrow.svg" alt="" width="20" height="20" loading="lazy" decoding="async" />
               </span>
             </article>
             <article class="px-5 py-12 text-center xl:px-8">
@@ -2249,7 +2323,7 @@
           <h3 class="how-step-title-row">Intent</h3>
           <p class="how-step-desc">User Discovers Trusted Publisher Content</p>
           <span class="how-mobile-connector" aria-hidden="true">
-            <img src="./images/bottom_arrow.svg" alt="" width="100%" height="100%" />
+            <img src="./images/bottom_arrow.svg" alt="" width="20" height="20" loading="lazy" decoding="async" />
           </span>
         </article>
         <article class="how-mobile-step border-b line-light">
@@ -2257,7 +2331,7 @@
           <h3 class="how-step-title-row">Decision</h3>
           <p class="how-step-desc">Buyer Guides, Comparisons, Discovery</p>
           <span class="how-mobile-connector" aria-hidden="true">
-            <img src="./images/bottom_arrow.svg" alt="" width="100%" height="100%" />
+            <img src="./images/bottom_arrow.svg" alt="" width="20" height="20" loading="lazy" decoding="async" />
           </span>
         </article>
         <article class="how-mobile-step border-b line-light">
@@ -2265,7 +2339,7 @@
           <h3 class="how-step-title-row">Action</h3>
           <p class="how-step-desc">Commerce Embedded In Content</p>
           <span class="how-mobile-connector" aria-hidden="true">
-            <img src="./images/bottom_arrow.svg" alt="" width="100%" height="100%" />
+            <img src="./images/bottom_arrow.svg" alt="" width="20" height="20" loading="lazy" decoding="async" />
           </span>
         </article>
         <article class="how-mobile-step border-b line-light">
@@ -2273,7 +2347,7 @@
           <h3 class="how-step-title-row">Outcome</h3>
           <p class="how-step-desc">GMV-Driven, Attributed Performance</p>
           <span class="how-mobile-connector" aria-hidden="true">
-            <img src="./images/bottom_arrow.svg" alt="" width="100%" height="100%" />
+            <img src="./images/bottom_arrow.svg" alt="" width="20" height="20" loading="lazy" decoding="async" />
           </span>
         </article>
         <article class="how-mobile-step text-center">
@@ -2300,7 +2374,7 @@
     </section>
 
     <!-- Metrics -->
-    <section id="metrics" class="metrics-section py-0 text-white" aria-labelledby="metrics-heading">
+    <section id="metrics" class="metrics-section lazy-section py-0 text-white" aria-labelledby="metrics-heading">
       <div class="between-rails">
         <div class="grid grid-cols-1 border md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] metrics-rule">
           <div class="border-b px-4 py-8 md:border-b-0 md:border-r md:p-10 md:py-12 metrics-rule">
@@ -2340,7 +2414,7 @@
     </section>
 
     <!-- About -->
-    <section id="about" class="about-section py-0" aria-labelledby="about-heading">
+    <section id="about" class="about-section lazy-section py-0" aria-labelledby="about-heading">
       <div class="between-rails">
         <header class="about-header">
           <p class="about-eyebrow-wrap">
@@ -2367,7 +2441,7 @@
     </section>
 
     <!-- Three Engines -->
-    <section id="engines" class="engines-section rails rails-dark py-0" aria-labelledby="engines-heading">
+    <section id="engines" class="engines-section lazy-section rails rails-dark py-0" aria-labelledby="engines-heading">
       <div class="between-rails">
         <header class="engines-header border-b engines-border">
           <p class="engines-eyebrow">THE TMOE ARCHITECTURE</p>
@@ -2389,6 +2463,8 @@
               alt="Diagram of TMOE platform network connecting media houses, brands, and agencies to commerce outcomes"
               width="647"
               height="344"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </article>
@@ -2401,12 +2477,14 @@
             </p>
             <!-- <a href="#" class="engines-explore focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-[rgb(22,23,29)]">Explore</a> -->
           </div>
-          <div class="engines-media">
+          <div class="engines-media engines-media--illustration">
             <img
-              src="./images/Illustration-decision-funnel-with-content-cards.gif"
+              src="./images/Illustration.gif"
               alt="Visual of MarvelOf decision engine workflow with intent filtering and insight feedback loops"
               width="647"
               height="344"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </article>
@@ -2425,6 +2503,8 @@
               alt="Technology stack illustration showing CMS, loyalty, and data systems powering TMOE network"
               width="647"
               height="344"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </article>
@@ -2432,7 +2512,7 @@
     </section>
 
     <!-- Why Us -->
-    <section class="why-section py-16 md:py-20" aria-labelledby="why-heading">
+    <section class="why-section lazy-section py-16 md:py-20" aria-labelledby="why-heading">
       <div class="between-rails">
         <header class="why-header px-4 md:px-[40px]">
           <p class="why-eyebrow">WHY US</p>
@@ -2520,7 +2600,7 @@
     </section>
 
     <!-- Network Commerce -->
-    <section id="commerce" class="commerce-section" aria-labelledby="commerce-heading">
+    <section id="commerce" class="commerce-section lazy-section" aria-labelledby="commerce-heading">
       <div class="between-rails">
         <div class="commerce-panel">
           <header class="commerce-header px-4 md:px-[40px]">
@@ -2538,6 +2618,8 @@
               class="commerce-card-visual"
               width="234"
               height="204"
+              loading="lazy"
+              decoding="async"
             />
           </article>
           <article class="commerce-card">
@@ -2550,6 +2632,8 @@
               class="commerce-card-visual"
               width="234"
               height="204"
+              loading="lazy"
+              decoding="async"
             />
           </article>
           <article class="commerce-card">
@@ -2562,6 +2646,8 @@
               class="commerce-card-visual"
               width="234"
               height="204"
+              loading="lazy"
+              decoding="async"
             />
           </article>
           </div>
@@ -2570,7 +2656,7 @@
     </section>
 
     <!-- Decision Engine -->
-    <section id="insights" class="insights-section rails rails-dark text-white" aria-labelledby="insights-marvel-heading">
+    <section id="insights" class="insights-section lazy-section rails rails-dark text-white" aria-labelledby="insights-marvel-heading">
       <div class="between-rails">
         <div class="insights-marvel-panel">
           <header class="insights-marvel-header">
@@ -2596,7 +2682,7 @@
                   Live environment for Network Commerce R&amp;D
                 </li>
               </ul>
-              <a href="https://marvelof.com/" target="_blank" rel="noopener noreferrer" class="insights-marvel-cta focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-[rgb(22,23,29)]">Explore MarvelOf</a>
+              <a href="https://marvelof.com/" target="_blank" rel="noopener noreferrer" class="insights-marvel-cta focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-[rgb(22,23,29)]" aria-label="Open MarvelOf website in new tab">Explore MarvelOf</a>
             </div>
             <div class="insights-marvel-media">
               <div class="insights-marvel-zoom">
@@ -2606,6 +2692,8 @@
                   class="insights-marvel-img"
                   width="234"
                   height="204"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -2671,7 +2759,7 @@
     </section>
 
     <!-- Our Network -->
-    <section class="network-section rails rails-dark text-white pb-16 md:pb-24" aria-labelledby="network-heading">
+    <section class="network-section lazy-section rails rails-dark text-white pb-16 md:pb-24" aria-labelledby="network-heading">
       <div class="between-rails">
         <div class="">
           <header class="network-header px-4 pt-10 md:px-[40px] md:pt-[40px]">
@@ -2684,20 +2772,22 @@
               <div class="network-marquee-viewport network-marquee--media">
                 <div class="network-marquee-track">
                   <div class="network-marquee-set">
-                    <div class="network-logo-cell"><img src="./images/zee.svg" alt="Z News" /></div>
-                    <div class="network-logo-cell"><img src="./images/theindianexpress.svg" alt="The Indian Express" /></div>
-                    <div class="network-logo-cell"><img src="./images/tempo.svg?c=1" alt="Tempo" /></div>
-                    <div class="network-logo-cell"><img src="./images/rev.svg" alt="Rev" /></div>
-                    <div class="network-logo-cell"><img src="./images/kompas.svg" alt="Kompas" /></div>
-                    <div class="network-logo-cell"><img src="./images/detik.svg" alt="Detik" /></div>
+                    <div class="network-logo-cell"><img src="./images/zee.svg?v=1" alt="Z News" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/theindianexpress.svg?v=1" alt="The Indian Express" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/one_india.svg?v=1" alt="One India" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/tempo.svg?v=1" alt="Tempo" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/rev.svg?v=2" alt="Rev" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/grid_network.svg" alt="Grid Network" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/detik.svg?v=2" alt="Detik" width="258" height="96" loading="lazy" decoding="async" /></div>
                   </div>
                   <div class="network-marquee-set" aria-hidden="true">
-                    <div class="network-logo-cell"><img src="./images/zee.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/theindianexpress.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/tempo.svg?c=1" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/rev.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/kompas.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/detik.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/zee.svg?v=1" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/theindianexpress.svg?v=1" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/one_india.svg?v=1" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/tempo.svg?v=1" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/rev.svg?v=2" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/grid_network.svg?v=1" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/detik.svg?v=2" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
                   </div>
                 </div>
               </div>
@@ -2707,34 +2797,34 @@
               <div class="network-marquee-viewport network-marquee--brands">
                 <div class="network-marquee-track">
                   <div class="network-marquee-set">
-                    <div class="network-logo-cell"><img src="./images/myntra.svg" alt="Myntra" /></div>
-                    <div class="network-logo-cell"><img src="./images/zalora.svg" alt="Zalora" /></div>
-                    <div class="network-logo-cell"><img src="./images/shopee.svg" alt="Shopee" /></div>
-                    <div class="network-logo-cell"><img src="./images/amazon.svg" alt="Amazon" /></div>
-                    <div class="network-logo-cell"><img src="./images/temu.svg" alt="Temu" /></div>
-                    <div class="network-logo-cell"><img src="./images/zomato.svg" alt="Zomato" /></div>
-                    <div class="network-logo-cell"><img src="./images/tiktok.svg" alt="TikTok" /></div>
-                    <div class="network-logo-cell"><img src="./images/traveloka.svg" alt="Traveloka" /></div>
-                    <div class="network-logo-cell"><img src="./images/hm.svg" alt="H&M" /></div>
-                    <div class="network-logo-cell"><img src="./images/skyscanner.svg" alt="Skyscanner" /></div>
-                    <div class="network-logo-cell"><img src="./images/pantaloons.svg" alt="Pantaloons" /></div>
-                    <div class="network-logo-cell"><img src="./images/tira.svg" alt="Tira" /></div>
-                    <div class="network-logo-cell"><img src="./images/shein.svg" alt="SHEIN" /></div>
+                    <div class="network-logo-cell"><img src="./images/myntra.svg" alt="Myntra" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/zalora.svg" alt="Zalora" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/shopee.svg" alt="Shopee" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/amazon.svg" alt="Amazon" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/temu.svg" alt="Temu" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/zomato.svg" alt="Zomato" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/tiktok.svg" alt="TikTok" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/traveloka.svg" alt="Traveloka" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/hm.svg" alt="H&M" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/skyscanner.svg" alt="Skyscanner" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/pantaloons.svg" alt="Pantaloons" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/tira.svg" alt="Tira" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/shein.svg" alt="SHEIN" width="258" height="96" loading="lazy" decoding="async" /></div>
                   </div>
                   <div class="network-marquee-set" aria-hidden="true">
-                    <div class="network-logo-cell"><img src="./images/myntra.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/zalora.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/shopee.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/amazon.svg" alt="Amazon" /></div>
-                    <div class="network-logo-cell"><img src="./images/temu.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/zomato.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/tiktok.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/traveloka.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/hm.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/skyscanner.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/pantaloons.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/tira.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/shein.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/myntra.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/zalora.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/shopee.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/amazon.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/temu.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/zomato.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/tiktok.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/traveloka.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/hm.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/skyscanner.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/pantaloons.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/tira.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/shein.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
                   </div>
                 </div>
               </div>
@@ -2744,18 +2834,18 @@
               <div class="network-marquee-viewport network-marquee--solution">
                 <div class="network-marquee-track">
                   <div class="network-marquee-set">
-                    <div class="network-logo-cell"><img src="./images/rakuten.svg" alt="Rakuten" /></div>
-                    <div class="network-logo-cell"><img src="./images/mcsaatchi.svg" alt="M&C Saatchi" /></div>
-                    <div class="network-logo-cell"><img src="./images/partnerize.svg" alt="Partnerize" /></div>
-                    <div class="network-logo-cell"><img src="./images/accesstrade.svg" alt="accesstrade" /></div>
-                    <div class="network-logo-cell"><img src="./images/impact.svg" alt="impact.com" /></div>
+                    <div class="network-logo-cell"><img src="./images/rakuten.svg" alt="Rakuten" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/mcsaatchi.svg" alt="M&C Saatchi" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/partnerize.svg" alt="Partnerize" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/accesstrade.svg" alt="accesstrade" width="258" height="96" loading="lazy" decoding="async" /></div>
+                    <div class="network-logo-cell"><img src="./images/impact.svg" alt="impact.com" width="258" height="96" loading="lazy" decoding="async" /></div>
                   </div>
                   <div class="network-marquee-set" aria-hidden="true">
-                    <div class="network-logo-cell"><img src="./images/rakuten.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/mcsaatchi.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/partnerize.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/accesstrade.svg" alt="" /></div>
-                    <div class="network-logo-cell"><img src="./images/impact.svg" alt="" /></div>
+                    <div class="network-logo-cell"><img src="./images/rakuten.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/mcsaatchi.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/partnerize.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/accesstrade.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
+                    <div class="network-logo-cell"><img src="./images/impact.svg" alt="" width="258" height="96" loading="lazy" decoding="async" aria-hidden="true" /></div>
                   </div>
                 </div>
               </div>
@@ -2766,14 +2856,14 @@
     </section>
 
     <!-- Final CTA -->
-    <section id="partner" class="cta-section rails rails-dark" aria-labelledby="cta-heading">
+    <section id="partner" class="cta-section lazy-section rails rails-dark" aria-labelledby="cta-heading">
       <div class="between-rails">
         <div class="pt-0">
           <div class="cta-panel">
             <p class="cta-eyebrow">The Marvel Of Everything</p>
             <h2 id="cta-heading" class="cta-title">Build with us.</h2>
             <p class="cta-lede">For Publishers, Brands, &amp; Strategic Partners.</p>
-            <a href="https://themarvelof.com/register" target="_blank" rel="noopener noreferrer" class="cta-btn">Partner With Us</a>
+            <a href="https://themarvelof.com/register" target="_blank" rel="noopener noreferrer" class="cta-btn" aria-label="Open partner registration page in new tab">Partner With Us</a>
           </div>
         </div>
       </div>
@@ -2781,7 +2871,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="site-footer rails rails-dark" role="contentinfo">
+  <footer class="site-footer lazy-section rails rails-dark" role="contentinfo">
     <div class="between-rails">
       <div class="footer-inner">
         <div class="footer-main px-4 md:px-[40px]">
@@ -2789,10 +2879,12 @@
             <a href="#" class="footer-logo-link" aria-label="TMOE home">
               <img
                 src="./images/tmoe_logo_footer.svg"
-                alt=""
+                alt="TMOE footer logo"
                 class="footer-logo-img"
                 width="96"
                 height="40"
+                loading="lazy"
+                decoding="async"
               />
             </a>
           </div>
